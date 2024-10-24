@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body layout:fragment="content">
+    <div class="container">
+        <div class="h2 text-center mt-2 mb-5">Report detail</div>
+        <div class="form-group">
+            <span class="h5"> Resident:</span>
+            <span class=""
+                th:text="${  form.resident.idResident + ' - ' + form.resident.nameResident}"> </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Date sent: </span>
+            <span class="" th:text="${ form.dateSent}">
+            </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Admin:  </span>
+            <span class="" th:if="${form.admin != null}"
+                th:text="${ form.admin.idResident + ' - ' + form.admin.nameResident}"> </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Date accept: </span>
+            <span class="" th:text="${ form.dateAccept}">
+            </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Note: </span>
+            <span class="" th:text="${form.note}">
+            </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Image: </span> 
+            <!-- <span th:if="${form.imgReports == null or form.imgReports.size() == 0}">
+            No picture available. -->
+        </span>
+            <div th:if="${form.imgReports != null and form.imgReports.size() > 0}" class="d-flex">
+                <div th:each="i : ${form.imgReports}">
+                    <img th:src="@{'/imagesReport/' + ${i.imagePath}}" alt="Picture" width="250px" height="250px" class="m-2"/>
+                </div>					
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="h5">Opinion: </span>
+            <span class="" th:text="${form.opinion  }">
+            </span>
+        </div>
+        <div class="w-50 d-flex float-right justify-content-end ">
+            <a href="#" class="btn btn-success w-auto mr-2 mr-0" data-toggle="modal" data-target="#opinionModal"
+            th:if="${form.opinion == null && role == 'ROLE_ADMIN'}">Accept</a>
+            <a href="list" class="btn btn-secondary w-auto ">Cancel</a>
+        </div>
+    </div>
+
+
+    <!-- Modal accept -->
+    <div class="modal fade" id="opinionModal" tabindex="-1" aria-labelledby="opinionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="opinionModalLabel">Opinion</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="h6"><span>Form Id: </span> <span th:text="${form.idForm}"></span></div>
+                    <form th:action="@{opinion}" method="post" id="opinionForm">
+                        <input type="text" name="idForm" hidden th:value="${form.idForm}">
+                        <textarea class="form-control" placeholder="Enter opinion..." id="opinion"
+                            name="opinion"></textarea>
+                        <span id="opinion-error" class="text-danger h5 ml-2 mt-2">Please enter opinion...</span>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" id="submitDeny" onclick="checkOpinion()">Deny</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/form/detail/js/detail.js}"></script>
+</body>
+
+</html>

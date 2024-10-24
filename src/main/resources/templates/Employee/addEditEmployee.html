@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Employee Management</title>
+</head>
+
+<body layout:fragment="content">
+	<form id="form-data" class="mt-5" th:action="save" method="post" th:object="${employee}" enctype="multipart/form-data">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3">Add New Employee</h1>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-3">
+					<label for="id-employee" class="form-lable">ID Employee</label>
+					<input type="text" th:field="*{employeeID}" id="id-employee" class="form-control" placeholder="ID Employee" readonly="readonly"/>
+
+					<div>
+						<span th:if="${#fields.hasErrors('employeeID')}" th:errors="*{employeeID}" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="col-3">
+					<label for="name-emp" class="form-lable">Your Name</label>
+					<input type="text" th:field="*{fullName}" id="name-emp" class="form-control" placeholder="Your Name" />
+
+					<div>
+						<span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="col-3">
+					<label for="CCCD" class="form-lable">National ID</label>
+					<input type="text" th:field="*{nationalID}" id="CCCD" class="form-control" placeholder="National ID" />
+
+					<div>
+						<span th:if="${#fields.hasErrors('nationalID')}" th:errors="*{nationalID}" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-3">
+					<label for="duty" class="form-lable">Duty</label>
+					<select id="duty" th:field="*{duty}" class="form-control" required>
+						<option hidden="hidden" th:value="null">--Select option--</option>
+						<option id="dutyEmp" value="Employee">Employee</option>
+						<option id="dutyMana" value="Manager">Manager</option>
+					</select>
+
+					<div>
+						<span th:if="${#fields.hasErrors('duty')}" th:errors="*{duty}" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="col-3">
+					<label for="Office" class="form-lable">Office</label>
+					<select id="Office" th:field="*{office}" class="form-control" required>
+						<option hidden="hidden" th:value="null">--Select option--</option>
+						<option value="Services">Services</option>
+						<option value="Engineering">Engineering</option>
+						<option value="Environment">Environment</option>
+					</select>
+
+					<div>
+						<span th:if="${#fields.hasErrors('office')}" th:errors="*{office}" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="col-3">
+					<label for="phone" class="form-lable">Phone Number</label>
+					<input type="text" th:field="*{phoneNumber}" id="phone" class="form-control" placeholder="09774054898" />
+
+					<div>
+						<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-3">
+					<label for="dateOfBirth" class="form-lable">Date Of Birth</label>
+					<input type="date" th:field="*{dateOfBirth}" id="dateOfBirth" class="form-control" placeholder="Date Of Birth" />
+
+					<div>
+						<span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="col-7">
+					<label for="place" class="form-lable">Country</label>
+					<input type="text" th:field="*{country}" id="place" class="form-control" placeholder="Country" />
+
+					<div>
+						<span th:if="${#fields.hasErrors('country')}" th:errors="*{country}" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="pb-2 my-4 d-flex align-content-center justify-content-around">
+				<select hidden="hidden" class="form-control">
+					<option class="mService" th:each="mana : ${listMService}" th:value="${mana.employeeID}"></option>
+					<option class="mEngin" th:each="mana : ${listMEngineering}" th:value="${mana.employeeID}"></option>
+					<option class="mEnviront" th:each="mana : ${listMEnvironment}" th:value="${mana.employeeID}"></option>
+				</select>
+
+				<div class="col-3">
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="gender" id="genderMale" th:field="*{gender}" th:value="Male" />
+						<label class="form-check-label" for="genderMale"> Male </label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="gender" id="genderFemale" th:field="*{gender}" th:value="Female" />
+						<label class="form-check-label" for="genderFemale">
+							Female
+						</label>
+					</div>
+
+					<div>
+						<span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="d-flex align-content-end col-7">
+					<input type="file" id="file" name="file" placeholder="profile" aria-label="Username" aria-describedby="addon-wrapping" />
+				</div>
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button id="create" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+
+				<button id="back-list" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+			</div>
+		</div>
+	</form>
+
+	<script th:src="@{/employee/js/update.js}"></script>
+</body>
+
+</html>

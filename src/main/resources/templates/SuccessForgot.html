@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+
+	<link rel="icon" th:href="@{/common/img/logoBlueHouse.png}" type="image/x-icon" />
+	<title>Document</title>
+
+	<link rel="stylesheet" th:href="@{/common/css/login.css}" />
+	<link rel="stylesheet" th:href="@{/lib/css/bootstrap.min.css}" />
+	<script th:src="@{/lib/js/jquery-3.7.1.min.js}"></script>
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<h2 class="head-icon">
+			<a href="login">
+				<span class="text-danger">/</span> B L U E H O U S E
+			</a>
+		</h2>
+
+		<div class="container mt-5 w-100">
+			<div th:if="${status == '0'}" class="text-center">
+				<h1>FORGOT PASSWORD</h1>
+				<span>Sorry, the information does not exist in the system</span>
+			</div>
+
+			<div th:if="${status == '1'}" class="text-center text-success">
+				<h1>FORGOT PASSWORD</h1>
+				<span>Success</span>
+			</div>
+
+			<div class="form-group mt-3 d-flex justify-content-center w-100">
+				<button onclick="window.location.href='/login';" type="button" class="btn btn-secondary">
+					<span class="h5">Back Login Page</span>
+				</button>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/lib/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

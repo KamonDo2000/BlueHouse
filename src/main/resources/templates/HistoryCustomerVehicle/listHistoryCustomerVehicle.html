@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body layout:fragment="content">
+	<div class="m-5">
+		<div class="container mt-3">
+			<h1 class="text-primary text-center">List History Customer
+				Vehicle</h1>
+		</div>
+
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+				<form class="d-flex" action="/historyCustomerVehicle/search" method="GET">
+					<input class="form-control me-2" type="text" name="searchKeyword"
+						placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+				<a href="add"><button type="button"
+						class="btn btn-success mr-5 ">ADD</button></a>
+			</div>
+		</nav>
+
+		<div class="mt-2">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Vehicle Number</th>
+						<th scope="col">Type</th>
+						<th scope="col">Apartment Number</th>
+						<th scope="col">Move In Date</th>
+						<th scope="col">Move Out Date</th>
+						<th scope="col">Active</th>
+					</tr>
+				</thead>
+				<tbody th:each="HisCusVehi : ${listhiscusvehi}">
+					<tr>
+						<td th:text="${HisCusVehi.id.vehicleNumber}"></td>
+						<td th:text="${HisCusVehi.type}"></td>
+						<td th:text="${HisCusVehi.apartmentHIS.apartmentNumber}"></td>
+						<td th:text="${HisCusVehi.id.moveInDate}"></td>
+						<td th:text="${HisCusVehi.moveOutDate}"></td>
+						<td><a th:if="${HisCusVehi.moveOutDate} == null"
+							th:href="@{xera(idhiscusvehi=${HisCusVehi.id.vehicleNumber}, idmoveInDate=${HisCusVehi.id.moveInDate})}"
+							target="blank"><button type="button"
+									class="btn btn-outline-success">Xe Ra</button></a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div th:replace="@{layout/page} :: pageAble"></div>
+		</div>
+	</div>
+</body>
+</html>

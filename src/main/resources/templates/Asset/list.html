@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}">
+
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Assets</title>
+</head>
+
+<body layout:fragment="content">
+
+	
+	<div class="container mt-4">
+		<div class="m-5 mt-4 ">
+			<div class="h1 text-center mb-4">
+				<a href="list" class="text-decoration-none">List Assets</a>
+			</div>
+			<div class="d-flex justify-content-between">
+				<div class="text-center w-50 m-auto">
+					<form th:action="search">
+						<div class="input-group ">
+							<input type="text" class="form-control border-right-0" id="search" placeholder="Search"
+								name="searchKeyword">
+							<button class="input-group-text border-left-0 bg-white" id="search" type="submit"
+								style="border-radius: 0 .25rem .25rem 0;">
+								<i class="fa-solid fa-magnifying-glass"></i>
+							</button>
+						</div>
+					</form>
+	
+				</div>
+				<div sec:authorize="hasRole('MANAGE')">
+					<a class="btn btn-success " href="showAdd"> + Thêm mới </a>
+				</div>
+			</div>	
+		</div>
+		<table class="table table-bordered ">
+			<thead class="thead-dark text-center">
+				<tr>
+					<th scope="col">ID asset</th>
+					<th scope="col">Name</th>
+					<th scope="col">Location</th>
+					<th scope="col">Number Of Assets</th>
+					<th scope="col">Price Of Assets</th>
+					<th scope="col">Manager</th>
+					<th scope="col" th:if="${role == 'ROLE_MANAGE'}">Schedule</th>
+				</tr>
+			</thead>
+			<tbody th:each="l : ${listAll}" class="text-center">
+				<tr>
+					<td th:text="${l.idAsset}"></td>
+					<td th:text="${l.name}"></td>
+					<td th:text="${l.location}"></td>
+					<td th:text="${l.quantityOfAssets}"></td>
+					<td th:text="${l.priceOfAssets}"></td>
+					<td th:if="l.employ != null" th:text="${l.employ.employeeID + ' - ' + l.employ.fullName}"></td>
+					<td th:if="${role == 'ROLE_MANAGE'}">
+						<a th:href="@{showUpdate(id=${l.idAsset})}"
+							th:if="${role == 'ROLE_MANAGE'}"><i class="fa-regular fa-pen-to-square text-warning"
+								title="Update"></i></a>
+						<span th:if="${role == 'ROLE_MANAGE'}">|</span>
+						<a th:data-value="${l.idAsset}" th:data-location="${l.location}"
+							data-currentPage="${currentPage}" th:if="${role == 'ROLE_MANAGE'}" href="#"
+							onclick="deleteAsset(this.dataset.value, this.dataset.location)" data-toggle="modal"
+							data-target="#exampleModal"><i class="fa-solid fa-trash-can text-danger" title="Delete"></i>
+						</a>
+						
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+		<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Bạn có chắc
+						chắn muốn xóa</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+					<button onclick="confirmDelete()" type="button" class="btn btn-primary">Xóa</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var idAsset;
+
+		var page;
+		function deleteAsset(id) {
+			idAsset = id;
+			if (typeof currentPage === "undefined") {
+				page = "";
+			} else {
+				page = currentPage;
+			}
+		}
+		function confirmDelete() {
+			window.location.href = "delete?id=" + idAsset + "&page=" + page;
+		}
+	</script>
+
+</body>
+
+</html>

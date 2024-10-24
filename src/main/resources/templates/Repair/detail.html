@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body layout:fragment="content">
+    <div class="container">
+        <div class="h2 text-center mt-2 mb-5">Repair detail</div>
+        <div class="form-group">
+            <span class="h5"> Repair id:</span>
+            <span class="" th:text="${repair.id}"> </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Date repair: </span>
+            <span class="" th:text="${repair.dateRepair}">
+            </span>
+        </div>
+        <div class="form-group" th:if="${repair.request != null}">
+            <span class="h5">request: </span>
+            <span th:if="${repair.request != null}" th:text="${repair.request.idForm}"></span>
+            </span>
+        </div>
+        <div class="form-group">
+            <span class="h5">Employee: </span>
+            <span class="" th:if="${repair.employee != null}"
+                th:text="${ repair.employee.employeeID + ' - ' + repair.employee.fullName}"> </span>
+        </div>
+        <div class="">
+            <span class="h5">Assets:</span>
+            <ul>
+                <li th:each="asset : ${repair.assets}">
+                    <span th:text="${asset.name}"></span> -
+                    <span th:text="${asset.location}"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <span class="h5">Image: </span>
+            </span>
+            <div th:if="${repair.imgRepairs != null and repair.imgRepairs.size() > 0}" class="d-flex">
+                <div th:each="i : ${repair.imgRepairs}">
+                    <img th:src="@{'/imagesReport/' + ${i.imagePath}}" alt="Picture" width="250px" height="250px"
+                        class="m-2" />
+                </div>
+            </div>
+        </div>
+        <div class="w-50 d-flex float-right justify-content-end ">
+            <a th:href="@{accept(idRepair=${repair.id})}" class="btn btn-success w-auto mr-2 mr-0"
+                th:if="${repair.dateRepair == null && role == 'ROLE_EMPLOYEE'}">Accept</a>
+            <a href="#" data-toggle="modal" data-target="#completedRepairModal" class="btn btn-success w-auto mr-2"
+                th:if="${ repair.dateRepair != null && role == 'ROLE_EMPLOYEE' && repair.dateCompleted == null}">Complete</a>
+            <a href="list" class="btn btn-secondary w-auto ">Cancel</a>
+        </div>
+
+    </div>
+
+
+   <!-- Modal completed repair -->
+   <div class="modal fade" id="completedRepairModal" tabindex="-1" aria-labelledby="completedRepairModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title text-success" id="completedRepairModalLabel">Complete</h5>
+
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+
+           <div class="modal-body">
+               <form th:action="completed" method="post" enctype="multipart/form-data" id="completedForm">
+                   <input type="text" name="idForm" hidden th:value="${repair.id}">
+                   <label for="file">Please add a picture to completed :</label>
+                   <br />
+                   <input type="file" id="file" name="files"  multiple/><br />
+                   <span id="error-message" class="text-danger"></span>
+               </form>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+               <button class="btn btn-primary" id="submitAsset" onclick="validateFile()">Add</button>
+           </div>
+
+       </div>
+   </div>
+</div>
+    <script th:src="@{/form/detail/js/detail.js}"></script>
+</body>
+
+</html>

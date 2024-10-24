@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../fontawesome-free-6.5.2-web/css/all.min.css">
+</head>
+<body layout:fragment="content">
+	<form id="form-data" th:action="update" class="mt-5" method="post" th:object="${finansuppfee}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3 text-primary" id="title-Text">title text</h1>
+			
+			<div class="row pb-3">
+			
+				<div class="col-4 ">
+					<label for="id-billCode" class="form-lable">Bill Code</label>
+					<input type="text" th:field="*{billCode}" id="id-billCode" class="form-control" placeholder="Bill Code">
+					<div th:if="${#fields.hasErrors('billCode')}" th:errors="*{billCode}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="billCode-error"></span>
+                    </div>
+				</div>
+
+				<div class=" col-4">
+					<label for="nameFeeType" class="form-lable">Name Fee Type</label>
+					<input type="text" th:field="*{nameFeeType}" id="nameFeeType" class="form-control" placeholder="Name Fee Type">
+					<div th:if="${#fields.hasErrors('nameFeeType')}" th:errors="*{nameFeeType}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="namefee-error"></span>
+                    </div>
+				</div>
+				<div class=" col-4">
+					<label for="sponsorName" class="form-lable">Sponsor Name</label>
+					<input type="text" th:field="*{sponsorName}" id="sponsorName" class="form-control" placeholder="Sponsor Name">
+					<div th:if="${#fields.hasErrors('sponsorName')}" th:errors="*{sponsorName}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="namespon-error"></span>
+                    </div>
+				</div>
+			</div>
+			<div class="row pb-3">
+				<div class="col-4">
+					<label for="datefee" class="form-lable ">Date</label>
+					<input type="date" th:field="*{datefee}" id="datefee" class="form-control">
+					<div th:if="${#fields.hasErrors('datefee')}" th:errors="*{datefee}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="datefee-error"></span>
+                    </div>
+				</div>
+				
+				<div class=" col-4">
+					<label for="price" class="form-lable">Price</label>
+					<input type="text" th:field="*{price}" id="price" class="form-control" placeholder="price">
+					<div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="price-error"></span>
+                    </div>
+				</div>
+				
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" id="update" class="btn btn-primary col-2" type="submit">
+					Update
+				</button> 
+				<button onclick="validate(event)" id="create" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+				
+				<button id="back-list" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+				
+			</div>
+			
+		</div>
+	</form>
+	
+	<script th:src="@{/FinancialSupportfee/js/updatefinan.js}"></script>
+</body>
+</html>

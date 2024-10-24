@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Notification</title>
+	<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+</head>
+
+<body layout:fragment="content" class="bg-light">
+	<div class="text-center pt-5">
+		<h1 th:text="${post.title}">Title</h1>
+	</div>
+
+	<div class="container d-flex flex-column align-items-center">
+
+		<div class="py-3 px-4 w-50 bg-white mb-4">
+
+			<div class="d-flex justify-content-between">
+				<p>
+					<b>Date send: </b>
+					<span th:utext="${post.date}">date</span>
+				</p>
+				<p>
+					<b>Time send: </b>
+					<span th:utext="${post.time}">time</span>
+				</p>
+
+
+			</div>
+
+			<div class="pt-3" th:utext="${post.contentNoti}">Content</div>
+
+			<div class="text-center" th:if="${post.attachment != null}">
+				<a th:href="@{/imgNotification/{attachment}(attachment=${post.attachment})}" target="blank">
+					<img th:src="@{'/imgNotification/' + ${post.attachment}}" height="300px" width="300px" />
+				</a>
+			</div>
+
+			<div class="d-flex justify-content-end text-right pt-2">
+				<div th:if="${isExist}" class="pr-3">
+					<a th:data-status="${idNoti}" th:data-value="${eventID}" onclick="window.location.href='/event/confirm?eventID='+this.dataset.value+'&idNoti='+this.dataset.status;" class="btn btn-success">Confirm Yes</a>
+				</div>
+
+				<div>
+					<a th:href="${lastPath}" class="btn btn-secondary">Back</a>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+
+</html>

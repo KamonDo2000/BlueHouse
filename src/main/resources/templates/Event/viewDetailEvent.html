@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Event Management</title>
+	<link rel="stylesheet" th:href="@{/account/css/list.css}" />
+</head>
+
+<body layout:fragment="content">
+	<div class="m-5 mt-4">
+		<div class="h1 text-center mb-4">
+			View Detail Event
+		</div>
+
+		<div class="text-center d-flex justify-content-between">
+			<form class="col-3">
+				<div class="input-group">
+					<input class="form-control search" placeholder="Search" name="searchKeyword" />
+					<button class="input-group-text search-icon" type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="table-responsive tableFixHead border-right border-left border-bottom mt-3">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name Participant</th>
+						<th scope="col">Mission</th>
+						<th scope="col">Note</th>
+
+						<th th:if="${author == 1}" sec:authorize="hasRole('ADMIN')" scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody th:each="parti : ${listParticipants}">
+					<tr>
+						<td th:if="${parti.participantEmp != null}" th:text="${parti.participantEmp.fullName}"></td>
+						<td th:if="${parti.participantResi != null}" th:text="${parti.participantResi.nameResident}"></td>
+
+						<td th:text="${parti.mission}"></td>
+						<td th:text="${parti.note}"></td>
+
+						<td th:if="${author == 1}" sec:authorize="hasRole('ADMIN')">
+							<a th:data-value="${parti.idParticipants}" onclick="window.location.href='Participants/edit?id='+this.dataset.value;" class="text-decoration-none mr-2" style="cursor: pointer;">
+								<i class="fa-solid fa-pen-to-square pencil"></i>
+							</a>
+
+							<a th:data-value="${parti.idParticipants}" onclick="window.location.href='Participants/delete?id='+this.dataset.value;" class="text-decoration-none mr-2" style="cursor: pointer;">
+								<i class="fa-solid fa-trash trash"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+
+	<script th:src="@{/account/js/list.js}"></script>
+</body>
+
+</html>

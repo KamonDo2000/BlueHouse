@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../fontawesome-free-6.5.2-web/css/all.min.css">
+</head>
+<body layout:fragment="content">
+	<form id="form-data" th:action="update" class="mt-5" method="post"
+		th:object="${RentalSpa}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3 text-primary" id="title-Text">Create Rental Space
+				Contract</h1>
+			<div class="row mb-3">
+				<div class="col-6 ">
+					<label for="contractCode" class="form-lable">ID Contract Code</label>
+					<input type="text" th:field="*{contractCode}" id="contractCode" class="form-control" placeholder="ID Contract">
+					<div th:if="${#fields.hasErrors('contractCode')}" th:errors="*{contractCode}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="idcon-error"></span>
+                    </div>
+				</div>
+
+				<div class=" col-6">
+					<label for="tenantCode" class="form-lable">Tenant Code</label>
+					<input type="text" th:field="*{tenantCode}" id="tenantCode" class="form-control" placeholder="Tenant Code">
+					<div th:if="${#fields.hasErrors('tenantCode')}" th:errors="*{tenantCode}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="tenan-error"></span>
+                    </div>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-6">
+					<label for="moveInDate" class="form-lable ">Move In Date</label>
+					<input type="date" th:field="*{moveInDate}" id="moveInDate" class="form-control">
+					<div th:if="${#fields.hasErrors('moveInDate')}" th:errors="*{moveInDate}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="moveindate-error"></span>
+                    </div>
+				</div>
+
+				<div class="col-6">
+					<label for="moveOutdate" class="form-lable ">Move Out Date</label>
+					<input type="date" th:field="*{moveOutdate}" id="moveOutdate" class="form-control">
+					<div th:if="${#fields.hasErrors('moveOutdate')}" th:errors="*{moveOutdate}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="moveoutdate-error"></span>
+                    </div>
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<div class=" col-4">
+					<label for="duration" class="form-lable">Duration</label>
+					<input type="time" th:field="*{duration}" id="duration" class="form-control" placeholder="Duration">
+					<div th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="dura-error"></span>
+                    </div>
+				</div>
+				<div class="col-4">
+					<label for="apartmentNumber" class="form-lable">Apartment Number </label>
+					<select th:field="*{idApa}" class="form-control" required>
+						<th:block th:each="apartment : ${apartments}">
+							<option th:value="${apartment.idApartment}"
+								th:text="${apartment.apartmentNumber}">
+							</option>
+						</th:block>
+					</select>
+				</div>
+				
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" id="update" class="btn btn-primary col-2" type="submit">
+					Update
+				</button> 
+				<button onclick="validate(event)" id="create" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+				
+				<button id="back-list" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+				
+			</div>
+		</div>
+	</form>
+	<script th:src="@{/RentalSpaceContract/js/updateren.js}"></script>
+</body>
+</html>

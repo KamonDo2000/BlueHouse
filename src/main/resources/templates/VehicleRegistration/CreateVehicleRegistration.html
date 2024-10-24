@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../fontawesome-free-6.5.2-web/css/all.min.css">
+</head>
+<body layout:fragment="content">
+	<form id="form-data" th:action="update" class="mt-5" method="post"
+		th:object="${vehicleregi}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3 text-primary" id="title-Text">Create Vehicle
+				Registration</h1>
+			<div class="row">
+				<div class="col-6 ">
+					<label for="idVehicle" class="form-lable">idVehicle code</label> 
+					<input type="text" th:field="*{idVehicle}" id="idVehicle" class="form-control" placeholder="idVehicle">
+					<div th:if="${#fields.hasErrors('idVehicle')}" th:errors="*{idVehicle}" class="text-danger"></div>
+						
+					<div class="error-message text-danger pt-3">
+                     	<span id="idvehi-error"></span>
+                    </div>
+				</div>
+
+				<div class=" col-6">
+					<label for="vehicleNumber" class="form-lable">vehicleNumber</label>
+					<input type="text" th:field="*{vehicleNumber}" id="vehicleNumber" class="form-control" placeholder="vehicleNumber">
+					<div th:if="${#fields.hasErrors('vehicleNumber')}" th:errors="*{vehicleNumber}" class="text-danger"></div>
+						
+					<div class="error-message text-danger pt-3">
+                     	<span id="vehi-error"></span>
+                    </div>
+				</div>
+			</div>
+			<div class="row pb-3">
+				<div class="col-6">
+					<label for="registrationDate" class="form-lable ">registrationDate</label>
+					<input type="date" th:field="*{registrationDate}" id="registrationDate" class="form-control">
+					<div th:if="${#fields.hasErrors('registrationDate')}" th:errors="*{registrationDate}" class="text-danger"></div>
+						
+					<div class="error-message text-danger pt-3">
+                     	<span id="regidate-error"></span>
+                    </div>
+				</div>
+
+				<div class="col-6">
+					<label for="expirationDate" class="form-lable ">expirationDate</label>
+					<input type="date" th:field="*{expirationDate}" id="expirationDate" class="form-control">
+					<div th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}" class="text-danger"></div>
+						
+					<div class="error-message text-danger pt-3">
+                     	<span id="expdate-error"></span>
+                    </div>
+				</div>
+
+				<div class="col-6">
+					<label for="apartmentVE" class="form-lable">ApartmentNumber</label> 
+					<select th:field="*{apartmentVE}" class="form-control" required>
+						<th:block th:each="apartment : ${listapa}">
+							<option th:value="${apartment.idApartment}"
+								th:text="${apartment.apartmentNumber}"></option>
+						</th:block>
+					</select>
+				</div>
+				<div class="col-6">
+					<label for="feeTypeCode" class="form-lable">feeTypeCode</label> 
+					<select th:field="*{feeTypeCode}" class="form-control" required>
+						<th:block th:each="feeTypeCode : ${listfee}">
+							<option th:value="${feeTypeCode.idFeetype}"
+								th:text="${feeTypeCode.nameFeetype}"></option>
+						</th:block>
+					</select>
+				</div>
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" id="update"
+					class="btn btn-primary col-2" type="submit">Update</button>
+				<button onclick="validate(event)" id="create"
+					class="btn btn-success col-2" type="submit">Create</button>
+				<button id="cancel" class="btn btn-secondary col-2 ml-2"
+					type="reset">Cancel</button>
+
+				<button id="back-list" class="btn btn-secondary col-2 ml-2"
+					type="reset">Back</button>
+
+			</div>
+		</div>
+	</form>
+	<script th:src="@{/VehicleRegistration/js/updatevehi.js}"></script>
+</body>
+</html>

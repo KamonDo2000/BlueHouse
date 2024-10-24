@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Apartment Transfer History</title>
+</head>
+
+<body layout:fragment="content">
+    <div class="container">
+        <form th:action="add" th:object="${formApartmentTransfer}" method="post">
+            <div class="container mt-5 mb-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card shadow-lg p-4">
+                            <div class="h2 text-center mt-2 mb-4">Add New Homeowner</div>
+
+                            <form>
+                                <!-- ID Old Homeowner -->
+                                <div class="form-group">
+                                    <label for="homeownerId">ID Old Homeowner</label>
+                                    <input type="text" class="form-control" id="homeownerId" name="homeownerId"
+                                        th:field="*{idResident}" readonly>
+                                </div>
+
+                                <!-- ID New Homeowner -->
+                                <div class="form-group">
+                                    <label for="newHomeowner">ID New Homeowner</label>
+                                    <input type="text" class="form-control" id="newHomeowner" name="newHomeowner"
+                                        th:field="*{newHomeowner}" required>
+                                </div>
+
+                                <!-- ID Apartment -->
+                                <div class="form-group">
+                                    <label for="apartmentId">ID Apartment</label>
+                                    <select class="form-control" id="apartmentId" name="apartmentId"
+                                        th:field="*{apartmentTransfer}" required>
+                                        <option hidden th:value="null">--Select apartment--</option>
+                                        <option th:each="a : ${apartments}" th:value="${a.idApartment}"
+                                            th:text="${a.apartmentNumber}"></option>
+                                    </select>
+                                </div>
+
+                                <!-- Transfer Date -->
+                                <div class="form-group">
+                                    <label for="transferDate">Transfer Date</label>
+                                    <input type="date" class="form-control" id="transferDate" name="transferDate"
+                                        th:field="*{transferDate}" required>
+                                </div>
+
+                                <!-- ID Manager -->
+                                <div class="form-group">
+                                    <label for="managerId">ID Manager</label>
+                                    <select class="form-control" id="managerId" name="managerId"
+                                        th:field="*{managerCodeTransfer}" required>
+                                        <option hidden disabled value="null">--Select manager--</option>
+                                        <option th:each="e : ${listAdministrator}" th:value="${e.employeeID}"
+                                            th:text="${e.fullName}"></option>
+                                    </select>
+                                </div>
+
+                                <!-- Submit and Cancel Buttons -->
+                                <div class="form-group d-flex justify-content-between mt-4">
+                                    <a href="list" class="btn btn-secondary w-45">
+                                        <span class="h5">Cancel</span>
+                                    </a>
+                                    <button type="submit" class="btn btn-primary w-45">
+                                        <span class="h5">OK</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Apt-arr" th:each="a : ${apartments}">
+                <input type="hidden" class="idApartment" th:value="${a.idApartment}">
+                <input type="hidden" class="idHomeowner" th:value="${a.idHomeowner}">
+            </div>
+        </form>
+    </div>
+    <script th:src="@{/ApartmentTransferHistory/js/ApartmentTransferHistory.js}"></script>
+
+</body>
+
+</html>

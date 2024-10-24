@@ -1,0 +1,176 @@
+body {
+	margin: 0;
+	padding: 0 !important;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+footer {
+	margin-top: auto;
+}
+
+header {
+	height: 80px;
+}
+
+header, footer {
+	background: rgb(207, 226, 255);
+}
+
+.Icon {
+	display: flex !important;
+	justify-content: center;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.Icon span {
+	cursor: pointer;
+}
+
+.bell {
+	font-size: larger;
+	cursor: pointer;
+}
+
+.bell:hover {
+	transition: 0.5s;
+	color: royalblue;
+}
+
+header ul li a {
+	color: black;
+}
+
+footer ul li {
+	list-style: none;
+}
+
+footer ul li p {
+	cursor: default;
+}
+
+footer a, header a {
+	text-decoration: unset;
+	color: inherit;
+}
+
+footer a:hover, header a:hover {
+	text-decoration: unset;
+	color: cornflowerblue;
+}
+
+footer p {
+	margin: 0;
+}
+/*==========================NAVBODY===========================*/
+section.navbody {
+	border-bottom: 1px solid white;
+	display: flex;
+}
+
+.dropdown-menu.show {
+	background: rgb(207, 226, 255);
+}
+
+.Menu {
+	background: rgb(207, 226, 255);
+	width: min-content ! important;
+	min-height: 795px;
+	padding-top: 30px;
+}
+
+.Menu button {
+	text-align: start;
+}
+
+.content {
+	width: 90%;
+}
+
+/* =========================table============================= */
+.search-icon {
+	border-radius: 0 0.25rem 0.25rem 0;
+	border-left: 0;
+	background: white;
+}
+
+.search {
+	border-right: 0;
+}
+
+.tableFixHead {
+	overflow-y: auto;
+	height: 375px;
+	overflow-x: auto;
+	margin-bottom: 5px;
+	width: 960px;
+}
+
+.tableFixHead thead th {
+	position: sticky;
+	/* make the table heads sticky */
+	top: 0px;
+	/* table head will be placed from the top of the table and sticks to it */
+}
+
+th {
+	border: none !important;
+}
+
+tbody#table-content td {
+	text-align: center;
+}
+
+tr th, td {
+	text-align: center;
+	white-space: nowrap;
+}
+
+table tbody tr:last-child, table tbody tr:last-child td {
+	border-bottom: unset !important;
+}
+
+table tbody {
+	border-top: none !important;
+}
+
+.trash {
+	color: #f5564a;
+	cursor: pointer;
+}
+
+.pencil {
+	color: #ffc720;
+	cursor: pointer;
+}
+
+.trash:hover {
+	color: #5e4600;
+}
+
+.pencil:hover {
+	color: #931309;
+}
+
+ul li a {
+	cursor: pointer;
+}
+
+/*==========================Notification================================*/
+.noti {
+	position: relative !important;
+	display: inline-block;
+}
+
+.noti .badge {
+	position: absolute !important;
+	top: 4px;
+	right: 6px;
+	padding: 2px 5px;
+	border-radius: 50%;
+	background-color: red;
+	color: white;
+	font-weight: bold;
+}

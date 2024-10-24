@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/form/detail/css/detail.css}">
+</head>
+
+<body layout:fragment="content">
+    <div class="text-center h1 mt-2 mb-2">Detail</div>
+    <div class="text-center h5 mb-3 text-success"><span th:text="${messT}"></span></div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-4 bg-secondary p-5">
+                <div class="text-center m-3"><button class="btn p-0 " onclick="showResident()" title="Resident"><i
+                            class="fa-regular fa-user p-3 bg-white "></i></button></div>
+                <div class="text-center m-2"><i class="fa-solid fa-arrow-down-long "></i></div>
+                <div class="text-center m-3">
+                    <button class="btn p-0 " onclick="showManager()" title="Manger" th:if="${form.employee != null}"><i
+                            class="fa-solid fa-user-tie p-3 bg-white "></i></button>
+                    <i class="fa-solid fa-user-tie p-3 bg-white nullActive " th:if="${form.employee == null}"></i>
+                </div>
+                <div class="text-center m-2"><i class="fa-solid fa-arrow-down-long "
+                        th:if="${form.employee != null && form.reason == null}"></i></div>
+                <div class="text-center m-3 ">
+                    <button class="btn p-0 " onclick="showEmployee()" title="Employee"
+                        th:if="${form.repair != null && form.reason == null}"><i
+                            class="fa-solid fa-wrench p-3 bg-white "></i></button>
+                    <i class="fa-solid fa-wrench p-3 bg-white nullActive"
+                        th:if="${form.repair == null && form.employee != null && form.reason == null}"></i>
+                </div>
+                <div class="text-center m-3"><i class="fa-solid fa-arrow-down-long mt-3"
+                        th:if="${form.repair == null && form.employee != null  && form.reason != null}"></i></div>
+                <div class="text-center m-3 "
+                    th:if="${form.repair == null && form.employee != null && form.reason != null}">
+                    <button class="btn p-0 text-danger">
+                        <i class="fa-solid fa-x p-3 bg-white"></i>
+                    </button>
+                </div>
+                <div class="text-center m-3"><i class="fa-solid fa-arrow-down-long mt-3"
+                        th:if="${form.repair != null && form.employee != null }"></i></div>
+                <div class="text-center m-3">
+                    <button class="btn p-0 " onclick="showRepair()" title="Repair"
+                        th:if="${form.repair != null && form.repair.dateRepair != null }"><i
+                            class="fa-regular fa-newspaper  p-3 bg-white "></i></button>
+                    <i class="fa-regular fa-newspaper p-3 bg-white nullActive"
+                        th:if="${form.repair != null && form.repair.dateRepair == null}"></i>
+                </div>
+            </div>
+            <div class="detail col-8 " id="infoForm">
+                <div class="text-center h3">Detail</div>
+                <div class="ml-4 mb-4"><span class="h5">Resident: </span> <span
+                        th:text="${form.resident.idResident} + ' - ' + ${form.resident.nameResident}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Manager: </span> <span th:if="${form.employee != null}"
+                        th:text="${form.employee.employeeID} + ' - ' + ${form.employee.fullName}"></span> </div>
+                <div class="ml-4 mb-4"><span class="h5">Employee: </span> <span
+                        th:if="${form.repair != null && form.repair.employee != null}"
+                        th:text="${form.repair.employee.employeeID} + ' - ' + ${form.repair.employee.fullName}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Date sent: </span> <span th:text="${form.dateSent}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Note: </span> <span th:text="${form.note}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Image: </span> <span
+                        th:if="${form.imgRequests == null or form.imgRequests.size() == 0}">
+                        No picture available.
+                    </span>
+                    <div th:if="${form.imgRequests != null and form.imgRequests.size() > 0}" class="d-flex">
+                        <div th:each="i : ${form.imgRequests}">
+                            <img th:src="@{'/imagesRequest/' + ${i.imagePath}}" alt="Picture" width="150px"
+                                height="150px" class="m-2" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ml-4 mb-4 h5 ">
+
+                    Status: <span th:switch="${form.status}">
+                        <span th:text="${form.status}" th:case="'Denied'" class="text-danger"></span>
+                        <span th:text="${form.status}" th:case="'Accept'" class="text-primary"></span>
+                        <span th:text="${form.status}" th:case="'Active'" class="text-warning"></span>
+                        <span th:text="${form.status}" th:case="'Completed'" class="text-success"></span>
+                        <span th:text="${form.status}" th:case="*"></span>
+                    </span>
+                </div>
+                <div class="ml-4 mb-4 h5 " th:if="${form.rate != null}">
+                    Rate from resident: <span th:switch="${form.rate}">
+                        <span th:text="${form.rate}" th:case="'Very bad'" class="text-danger"></span>
+                        <span th:text="${form.rate}" th:case="'Bad'" class="text-danger"></span>
+                        <span th:text="${form.rate}" th:case="'Normal'" class="text-warning"></span>
+                        <span th:text="${form.rate}" th:case="'Good'" class="text-success"></span>
+                        <span th:text="${form.rate}" th:case="'Very good'" class="text-success"></span>
+                        <span th:text="${form.rate}" th:case="*"></span>
+                    </span>
+                </div>
+                <div class="ml-4 mb-4 h5 " th:if="${form.reason != null}">Reason: <span th:text="${form.reason}"></span>
+                </div>
+                <div class="w-50 d-flex float-right justify-content-end ">
+                    <a href="#" class="btn btn-danger w-auto mr-2 mr-0" data-toggle="modal" data-target="#exampleModal"
+                        th:if="${form.employee == null && role == 'ROLE_MANAGE'}">Deny</a>
+                    <a th:href="@{accept(idForm=${form.idForm})}" class="btn btn-success w-auto mr-2"
+                        th:if="${form.employee == null && role == 'ROLE_MANAGE'}">Accept</a>
+                    <a href="#" class="btn btn-success w-auto mr-2" data-toggle="modal" data-target="#employeeModal"
+                        th:if="${form.employee != null && role == 'ROLE_MANAGE' && form.repair == null && form.reason == null}">Assign</a>
+                    <a th:href="@{showListAsset?id={id}(id=${form.idForm})}" class="btn btn-success w-auto mr-2"
+                        th:if="${form.repair != null && role == 'ROLE_EMPLOYEE' && form.repair.dateRepair == null}">Accept</a>
+                    <a href="#" data-toggle="modal" data-target="#completedRepairModal"
+                        class="btn btn-success w-auto mr-2"
+                        th:if="${form.repair != null && role == 'ROLE_EMPLOYEE' && form.status == 'Active'}">Complete</a>
+                    <a href="#" data-toggle="modal" data-target="#rateModal" class="btn btn-success w-auto mr-2"
+                        th:if="${ form.rate == null && (role == 'ROLE_ADMIN' || role == 'ROLE_RESIDENT')&& (form.status == 'Denied' || form.status == 'Completed') }">Rate</a>
+                    <a href="list" class="btn btn-secondary w-auto ">Cancel</a>
+                </div>
+            </div>
+            <div class="detail col-8 d-none " id="infoResident">
+                <div class="text-center h3 mb-4">Resident information</div>
+                <div class="ml-4 mb-4"><span class="h5">Resident: </span> <span
+                        th:text=" ${form.resident.nameResident}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Gender: </span> <span th:text="${form.resident.gender}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Apartment: </span> <span
+                        th:if="${form.resident.idApartment != null}"
+                        th:text="${form.resident.idApartment.apartmentNumber}"></span> </div>
+                <div class="ml-4 mb-4"><span class="h5">Birthday: </span> <span
+                        th:text="${form.resident.birthday}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Phone Number: </span> <span
+                        th:text="${form.resident.phonenumber}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Work Place: </span> <span
+                        th:text="${form.resident.workplace}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Identification Card: </span> <span
+                        th:text="${form.resident.identificationCard}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Country Side: </span> <span
+                        th:text="${form.resident.countryside}"></span></div>
+                <div class="w-50 d-flex float-right justify-content-end ">
+                    <button onclick="cancel()" class="btn btn-secondary ">Cancel</button>
+                </div>
+            </div>
+            <div class="detail col-8 d-none " id="infoManager" th:if="${form.employee != null}">
+                <div class="text-center h3 mb-4">Manager information</div>
+                <div class="ml-4 mb-4"><span class="h5">Manager: </span> <span
+                        th:text=" ${form.employee.fullName}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Gender: </span> <span th:text="${form.employee.gender}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Birthday: </span> <span
+                        th:text="${form.employee.dateOfBirth}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Phone Number: </span> <span
+                        th:text="${form.employee.phoneNumber}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Office: </span> <span th:text="${form.employee.office}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">National ID: </span> <span
+                        th:text="${form.employee.nationalID}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Country Side: </span> <span
+                        th:text="${form.employee.country}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Reception Date: </span> <span
+                        th:text="${form.dateAccept}"></span></div>
+                <div class="w-50 d-flex float-right justify-content-end ">
+                    <button onclick="cancel()" class="btn btn-secondary ">Cancel</button>
+                </div>
+            </div>
+            <div class="detail col-8 d-none " id="infoEmployee"
+                th:if="${form.repair != null && form.repair.employee != null}">
+                <div class="text-center h3 mb-4">Employee information</div>
+                <div class="ml-4 mb-4"><span class="h5">Employee: </span> <span
+                        th:text=" ${form.repair.employee.fullName}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Gender: </span> <span
+                        th:text="${form.repair.employee.gender}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Birthday: </span> <span
+                        th:text="${form.repair.employee.dateOfBirth}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Phone Number: </span> <span
+                        th:text="${form.repair.employee.phoneNumber}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Office: </span> <span
+                        th:text="${form.repair.employee.office}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">National ID: </span> <span
+                        th:text="${form.repair.employee.nationalID}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Country Side: </span> <span
+                        th:text="${form.repair.employee.country}"></span></div>
+                <div class="ml-4 mb-4"><span class="h5">Date Assign: </span> <span
+                        th:text="${form.repair.dateAssign}"></span></div>
+                <div class="w-50 d-flex float-right justify-content-end ">
+                    <button onclick="cancel()" class="btn btn-secondary ">Cancel</button>
+                </div>
+            </div>
+            <div class="detail col-8 d-none " id="infoRepair"
+                th:if="${form.repair != null && form.repair.dateRepair != null}">
+                <div class="text-center h3 mb-4">Repair information</div>
+                <div class="ml-4 mb-4">
+                    <span class="h5">Assets:</span>
+                    <ul>
+                        <li th:each="asset : ${form.repair.assets}">
+                            <span th:text="${asset.name}"></span> -
+                            <span th:text="${asset.location}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Date start: </span> <span
+                        th:text="${form.repair.dateRepair}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Date completed: </span> <span
+                        th:text="${form.repair.dateCompleted}" th:if="${form.repair.dateCompleted != null}"></span>
+                </div>
+                <div class="ml-4 mb-4"><span class="h5">Image: </span>
+                    <div th:if="${form.repair.imgRepairs != null and form.repair.imgRepairs.size() > 0}" class="d-flex">
+                        <div th:each="i : ${form.repair.imgRepairs}">
+                            <img th:src="@{'/imagesReport/' + ${i.imagePath}}" alt="Picture" width="250px" height="250px"
+                                class="m-2" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w-50 d-flex float-right justify-content-end ">
+                    <button onclick="cancel()" class="btn btn-secondary ">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal deny -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Deny</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="h6"><span>Form Id: </span> <span th:text="${form.idForm}"></span></div>
+                    <form th:action="@{deny}" method="post" id="denyForm">
+                        <input type="text" name="idForm" hidden th:value="${form.idForm}">
+                        <textarea class="form-control" placeholder="Enter reason..." id="reason-deny"
+                            name="reasonDeny"></textarea>
+                        <span id="reason-error" class="text-danger h5 ml-2 mt-2">Please enter reason...</span>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" id="submitDeny">Deny</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Employee Assignment -->
+    <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="h6"><span>Form Id: </span> <span th:text="${form.idForm}"></span></div>
+                    <form th:action="@{addEmployee}" method="post" id="selectedEmployeeForm">
+                        <div class="form-group">
+                            <label for="optionSelect">Select an employee:</label>
+                            <input type="text" name="idForm" hidden th:value="${form.idForm}">
+                            <select class="form-control" id="optionSelect" name="selectedEmployee">
+                                <option hidden value="">Select an employee...</option>
+                                <option th:each="e : ${employees}" th:value="${e.employeeID}" th:text="${e.fullName}">
+                                </option>
+                            </select>
+                            <span id="select-error" class="text-danger h5 ml-2 mt-2">Please choose employee...</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" id="submitSelectEmployee" onclick="checkSelect()">Accept</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal repair -->
+    <div class="modal fade" id="repairModal" tabindex="-1" aria-labelledby="repairModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="repairModalLabel">Repair</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" th:if="${form.repair != null && form.repair.dateCompleted == null}">
+                    <div class="h5"><span>Form Id: </span> <span th:text="${form.idForm}"></span></div>
+                    <form th:action="@{accept}" method="post" id="idAssetForm">
+                        <input type="text" name="idForm" hidden th:value="${form.idForm}">
+                        <div class="form-group">
+                            <label class="ml-2 mt-2 h6">Id asset</label>
+                            <input type="text" class="form-control" placeholder="AS001" id="id" name="idAsset">
+                            <span id="id-error" class="text-danger h5 ml-2 mt-2">Please enter id...</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" id="submitAsset" onclick="checkIdAsset()">Add</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal completed repair -->
+    <div class="modal fade" id="completedRepairModal" tabindex="-1" aria-labelledby="completedRepairModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success" id="completedRepairModalLabel">Complete</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="h5"><span>Form Id: </span> <span th:text="${form.idForm}"></span></div>
+                    <form th:action="completed" method="post" enctype="multipart/form-data" id="completedForm">
+                        <input type="text" name="idForm" hidden th:value="${form.idForm}">
+                        <label for="file">Please add a picture to completed :</label>
+                        <br />
+                        <input type="file" id="file"  name="files" multiple /><br />
+                        <span id="error-message" class="text-danger"></span>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" id="submitAsset" onclick="validateFile()">Add</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal rate -->
+    <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="rateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="rateModalLabel">Rate</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="h6"><span>Form Id: </span> <span th:text="${form.idForm}"></span></div>
+                    <form th:action="@{rate}" method="post" id="rateForm">
+                        <input type="text" name="idForm" hidden th:value="${form.idForm}">
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rating" value="5" />
+                            <label for="star5" title="5 stars">&#9733;</label>
+
+                            <input type="radio" id="star4" name="rating" value="4" />
+                            <label for="star4" title="4 stars">&#9733;</label>
+
+                            <input type="radio" id="star3" name="rating" value="3" />
+                            <label for="star3" title="3 stars">&#9733;</label>
+
+                            <input type="radio" id="star2" name="rating" value="2" />
+                            <label for="star2" title="2 stars">&#9733;</label>
+
+                            <input type="radio" id="star1" name="rating" value="1" />
+                            <label for="star1" title="1 star">&#9733;</label>
+                        </div>
+                        <span id="rate-error" class="text-danger h5 ml-2 mt-2">Please rate...</span>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-warning" onclick="checkRate()">Rate</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script th:src="@{/form/detail/js/detail.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Employee</title>
+	<link rel="stylesheet" th:href="@{/employee/css/list.css}" />
+
+	<style type="text/css">
+		.table-container {
+			overflow-x: auto;
+			position: relative;
+		}
+
+		th.sticky-left,
+		td.sticky-left {
+			position: sticky;
+			left: 0;
+			background: white;
+			z-index: 1;
+		}
+
+		th.sticky-right,
+		td.sticky-right {
+			position: sticky;
+			right: 0;
+			background: white;
+			z-index: 1;
+		}
+
+		th.sticky-left {
+			z-index: 2;
+		}
+
+		th.sticky-right {
+			z-index: 2;
+		}
+	</style>
+
+</head>
+
+<body layout:fragment="content">
+	<div class="m-5 mt-4">
+		<div class="h1 text-center mb-4">
+			<a href="list" class="text-decoration-none text-body">Employee List</a>
+		</div>
+
+		<div class="text-center d-flex justify-content-between">
+			<form th:action="search" class="col-3">
+				<div class="input-group">
+					<input class="form-control search" placeholder="Search" name="searchKeyword" />
+					<button class="input-group-text search-icon" type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</form>
+
+			<a sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" href="add">
+				<button type="button" class="btn btn-info">+ ADD New</button>
+			</a>
+		</div>
+		<!-- tabs -->
+		<ul class="nav mt-4">
+			<li class="nav-item">
+				<a onclick="moveTabs(event, 'All')" class="nav-link tablinks active bg-dark">All</a>
+			</li>
+			<li class="nav-item">
+				<a onclick="moveTabs(event, 'Services')" class="nav-link tablinks">Services</a>
+			</li>
+			<li class="nav-item">
+				<a onclick="moveTabs(event, 'Engineering')" class="nav-link tablinks">Engineering</a>
+			</li>
+			<li class="nav-item">
+				<a onclick="moveTabs(event, 'Environment')" class="nav-link tablinks">Environment</a>
+			</li>
+		</ul>
+
+		<div id="All" class="tabcontent">
+			<div class="tableFixHead border-right border-left border-bottom table-container">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th class="sticky-left" scope="col">Employee ID</th>
+							<th scope="col">Employee Name</th>
+							<th scope="col">National ID</th>
+							<th scope="col">Date Of Birth</th>
+							<th scope="col">Gender</th>
+							<th scope="col">Country</th>
+							<th scope="col">Duty</th>
+							<th scope="col">Office</th>
+							<th scope="col">Phone Number</th>
+							<th class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" scope="col">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody th:each="emp : ${listEmpPaggin}">
+						<tr>
+							<td class="sticky-left" th:text="${emp.employeeID}"></td>
+							<td th:text="${emp.fullName}"></td>
+							<td th:text="${emp.nationalID}"></td>
+							<td th:text="${emp.dateOfBirth}"></td>
+							<td th:text="${emp.gender}"></td>
+							<td th:text="${emp.country}"></td>
+							<td th:text="${emp.duty}"></td>
+							<td th:text="${emp.office}"></td>
+							<td th:text="${emp.phoneNumber}"></td>
+							<td class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')">
+								<a class="text-decoration-none mr-2" th:href="@{edit(employeeID=${emp.employeeID})}">
+									<i class="fa-solid fa-pen-to-square pencil"></i>
+								</a>
+
+								<a th:data-value="${emp.employeeID}" onclick="deleteEmp(this.dataset.value)" data-toggle="modal" data-target="#deleteModal">
+									<i class="fa-solid fa-trash trash"></i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div th:replace="@{layout/page} :: pageAble"></div>
+		</div>
+
+		<div id="Services" class="tabcontent" style="display: none;">
+			<div class="tableFixHead border-right border-left border-bottom table-container">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th class="sticky-left" scope="col">Employee ID</th>
+							<th scope="col">Employee Name</th>
+							<th scope="col">National ID</th>
+							<th scope="col">Date Of Birth</th>
+							<th scope="col">Gender</th>
+							<th scope="col">Country</th>
+							<th scope="col">Duty</th>
+							<th scope="col">Phone Number</th>
+							<th class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" scope="col">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody th:each="emp : ${listEmp}">
+						<tr th:if="${emp.office == 'Services'}">
+							<td class="sticky-left" th:text="${emp.employeeID}"></td>
+							<td th:text="${emp.fullName}"></td>
+							<td th:text="${emp.nationalID}"></td>
+							<td th:text="${emp.dateOfBirth}"></td>
+							<td th:text="${emp.gender}"></td>
+							<td th:text="${emp.country}"></td>
+							<td th:text="${emp.duty}"></td>
+							<td th:text="${emp.phoneNumber}"></td>
+							<td class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')">
+								<a class="text-decoration-none mr-2" th:href="@{edit(employeeID=${emp.employeeID})}">
+									<i class="fa-solid fa-pen-to-square pencil"></i>
+								</a>
+								<a th:data-value="${emp.employeeID}" onclick="deleteEmp(this.dataset.value)" data-toggle="modal" data-target="#deleteModal">
+									<i class="fa-solid fa-trash trash"></i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div id="Engineering" class="tabcontent" style="display: none;">
+			<div class="tableFixHead border-right border-left border-bottom table-container">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th class="sticky-left" scope="col">Employee ID</th>
+							<th scope="col">Employee Name</th>
+							<th scope="col">National ID</th>
+							<th scope="col">Date Of Birth</th>
+							<th scope="col">Gender</th>
+							<th scope="col">Country</th>
+							<th scope="col">Duty</th>
+							<th scope="col">Phone Number</th>
+							<th class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" scope="col">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody th:each="emp : ${listEmp}">
+						<tr th:if="${emp.office == 'Engineering'}">
+							<td class="sticky-left" th:text="${emp.employeeID}"></td>
+							<td th:text="${emp.fullName}"></td>
+							<td th:text="${emp.nationalID}"></td>
+							<td th:text="${emp.dateOfBirth}"></td>
+							<td th:text="${emp.gender}"></td>
+							<td th:text="${emp.country}"></td>
+							<td th:text="${emp.duty}"></td>
+							<td th:text="${emp.phoneNumber}"></td>
+							<td class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')">
+								<a class="text-decoration-none mr-2" th:href="@{edit(employeeID=${emp.employeeID})}">
+									<i class="fa-solid fa-pen-to-square pencil"></i>
+								</a>
+								<a th:data-value="${emp.employeeID}" onclick="deleteEmp(this.dataset.value)" data-toggle="modal" data-target="#deleteModal">
+									<i class="fa-solid fa-trash trash"></i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div id="Environment" class="tabcontent" style="display: none;">
+			<div class="tableFixHead border-right border-left border-bottom table-container">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th class="sticky-left" scope="col">Employee ID</th>
+							<th scope="col">Employee Name</th>
+							<th scope="col">National ID</th>
+							<th scope="col">Date Of Birth</th>
+							<th scope="col">Gender</th>
+							<th scope="col">Country</th>
+							<th scope="col">Duty</th>
+							<th scope="col">Phone Number</th>
+							<th class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" scope="col">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody th:each="emp : ${listEmp}">
+						<tr th:if="${emp.office == 'Environment'}">
+							<td class="sticky-left" th:text="${emp.employeeID}"></td>
+							<td th:text="${emp.fullName}"></td>
+							<td th:text="${emp.nationalID}"></td>
+							<td th:text="${emp.dateOfBirth}"></td>
+							<td th:text="${emp.gender}"></td>
+							<td th:text="${emp.country}"></td>
+							<td th:text="${emp.duty}"></td>
+							<td th:text="${emp.phoneNumber}"></td>
+							<td class="sticky-right" sec:authorize="hasAnyRole('ADMIN', 'MANAGE')">
+								<a class="text-decoration-none mr-2" th:href="@{edit(employeeID=${emp.employeeID})}">
+									<i class="fa-solid fa-pen-to-square pencil"></i>
+								</a>
+								<a th:data-value="${emp.employeeID}" onclick="deleteEmp(this.dataset.value)" data-toggle="modal" data-target="#deleteModal">
+									<i class="fa-solid fa-trash trash"></i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- tabs end -->
+	</div>
+
+	<div th:replace="@{layout/modalDel} :: modalDelete"></div>
+
+	<script th:src="@{/employee/js/list.js}"></script>
+</body>
+
+</html>

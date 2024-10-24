@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../fontawesome-free-6.5.2-web/css/all.min.css">
+</head>
+<body layout:fragment="content">
+	<form th:action="@{save}" class="mt-5" method="post"
+		th:object="${hiscusvehi}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3 text-primary">Create History Customer Vehicle</h1>
+			
+			<div class="row pb-2 ">
+				<div class="col-6">
+					<label for="vehicleNumber" class="form-lable">Vehicle Number </label> 
+					<input type="text" th:field="*{id.vehicleNumber}" id="vehicleNumber" class="form-control col-12" placeholder="Vehicle Number">
+					<div th:if="${#fields.hasErrors('id.vehicleNumber')}" th:errors="*{id.vehicleNumber}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="vehi-error"></span>
+                    </div>
+				</div>
+
+				<div class="col-6">
+					<label for="type" class="form-lable col-6">Type</label> 
+					<select class="form-control col-12" aria-label="Disabled select example" th:field="*{type}" id="type">
+						<option value="Xe OTO">Xe Oto</option>
+						<option value="Xe May">Xe May</option>
+					</select>
+					<div th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="text-danger"></div>
+				</div>
+
+			</div>
+
+			<div class="row pb-3">
+				<div class="col-6">
+					<label for="moveInDate" class="form-lable ">Move In Date</label> 
+					<input type="datetime-local" th:field="*{id.moveInDate}" id="moveInDate" class="form-control col-12">
+					<div th:if="${#fields.hasErrors('id.moveInDate')}" th:errors="*{id.moveInDate}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="moveInDate-error"></span>
+                    </div>
+				</div>
+
+				<div class="col-6">
+					<label for="apartmentHIS" class="form-lable">Apartment Number</label> 
+					<select th:field="*{apartmentHIS}" class="form-control col-12" required>
+						<th:block th:each="apartment : ${apartments}">
+							<option th:value="${apartment.idApartment}"
+								th:text="${apartment.apartmentNumber}"></option>
+						</th:block>
+					</select>
+				</div>
+
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" id="create" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+				<button class="btn btn-secondary btn-lg col-2 ml-2" type="reset">Cancel
+				</button>
+			</div>
+		</div>
+	</form>
+	<script th:src="@{/HistoryCustomerVehicle/js/validate.js}"></script>
+</body>
+</html>

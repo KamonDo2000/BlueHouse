@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="ISO-8859-1" />
+	<title>Insert title here</title>
+</head>
+
+<body th:fragment="navmenu">
+	<div class="Menu">
+		<div sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" class="btn-group dropright bottom w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Account
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/account/list">List Account</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/account/add">Create New Account</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('ADMIN')" class="btn-group dropright bottom w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Resident
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/Resident/createresident">Create Resident</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/Resident/showlistresident">List Resident</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE') or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage IncomeBill
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/IncomeBill/showfeetype">List Feetype</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBill/createapartmentbill">Create Incobill</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBill/showlistbill">List Incobill</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBillDetail/createBillDetail">Create Incobill Detail</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBillDetail/showlishtdetail">List Incobill Detail</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBill/showbill">Pay</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage RepairBill
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/ExpenseBill/create">Create ExpenseBill</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/ExpenseBill/show">List ExpenseBill</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/ExpenseBill/createdetail">Create ExpenseBill Detail</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/ExpenseBill/listdetail">List ExpenseBill Detail</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Apartment
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/Apartment/list">List Apartment</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBill/createapartmentbill">Create IncomBill Apartment</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/IncomeBillDetail/createBillDetail">Create IncomBill Detail</a>\
+				<a class="dropdown-item" href="/ApartmentTransferHistory/list">Transfer History</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('ADMIN')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage EvenBill
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/ExpenseBill/createbillevent">Create ExpenseBill</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/ExpenseBill/show">List ExpenseBill</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/ExpenseBill/createdetail">Create ExpenseBill Detail</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/ExpenseBill/listdetail">List ExpenseBill Detail</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('ADMIN')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Position
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/Position/createposition">Create Position</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/Position/showlistposition">List Position</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('ADMIN')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				Manage Adminis
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/Administrators/createadminis">Create Adminis</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/Administrators/showlistadminis">List Adminis</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')or hasRole('RESIDENT')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Vehicle
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/vehicleRegistration/list">List Vehicle Registration</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/vehicleRegistration/add">Create Vehicle Registration</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')or hasRole('RESIDENT')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Register
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/registerForResidence/list">List Register</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/registerForResidence/add">Create Register
+				</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Rental Contracs
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/rentalSpaceContract/list">List Rental Contracs</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/rentalSpaceContract/add">Create Rental Contracs</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage History Vehicle
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/historyCustomerVehicle/list">List History Vehicle</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/historyCustomerVehicle/add">Create History Vehicle</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Advertising
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/advertisingContract/list">List Advertising</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/advertisingContract/add">Create Advertising</a>
+			</div>
+		</div>
+
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Financial
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/financialSupportfee/list">List Financial</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/financialSupportfee/add">Create Financial</a>
+			</div>
+		</div>
+
+		<div class="btn-group dropright bottom w-100">
+			<button type="button" class="btn dropdown-toggle border border-light" data-toggle="dropdown" aria-expanded="false">
+				Manage Event
+			</button>
+			<div class="dropdown-menu">
+				<a sec:authorize="hasAnyRole('ADMIN')" class="dropdown-item" href="/event/">My Event</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="/event/listJoin">My Event Join</a>
+				<div class="dropdown-divider"></div>
+				<a sec:authorize="hasAnyRole('ADMIN')" class="dropdown-item" href="/event/add">Create Event</a>
+			</div>
+		</div>
+<<<<<<< HEAD
+=======
+		<div sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE')" class="btn-group dropright w-100">
+			<a class="btn border border-light text-left" href="/Asset/list">List Assets</a>			
+		</div>
+>>>>>>> Dung
+	</div>
+</body>
+
+</html>

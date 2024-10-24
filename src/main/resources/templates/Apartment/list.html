@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body layout:fragment="content">
+	<div class="m-5 ">
+		<div class="h1 text-center mb-4">
+			<a href="list" class="text-decoration-none">List apartment</a>
+		</div>
+		<div class="text-center w-50 m-auto">
+			<form th:action="search">
+				<div class="input-group ">
+					<input type="text" class="form-control border-right-0" id="search"
+						placeholder="Search" name="searchKeyword">
+					<button class="input-group-text border-left-0 bg-white" id="search"
+						type="submit" style="border-radius: 0 .25rem .25rem 0;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+								d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                          </svg>
+					</button>
+				</div>
+			</form>
+		</div>
+
+
+	</div>
+	<div class="m-5 mt-4">
+		<table class="table table-bordered ">
+			<thead class="table-dark text-center">
+                  <tr>
+					<th scope="col">ID Apartment</th>
+					<th scope="col">ID Homeowner</th>
+					<th scope="col">Floor</th>
+					<th scope="col">Number of rooms</th>
+					<th scope="col">Area</th>
+					<th scope="col">Apartment number</th>
+					<th scope="col">Apartment type </th>
+					<th scope="col">Bill Detail</th>
+
+
+
+				</tr>
+			</thead>
+			<tbody th:each="a : ${listApartment}" class="text-center">
+				<tr>
+					<td th:text="${a.idApartment}"></td>
+					<td th:text="${a.idHomeowner}"></td>
+					<td th:text="${a.floor}"></td>
+					<td th:text="${a.numberOfRooms}"></td>
+					<td th:text="${a.area}"></td>
+					<td th:text="${a.apartmentNumber}"></td>
+					<td th:text="${a.typeApartment}"></td>
+					<td><a th:href="@{/IncomeBill/showlistapratmentbill(idApartment=${a.idApartment})}" target="blank"><i class="fa-solid fa-file-invoice-dollar"></i></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+
+</body>
+</html>

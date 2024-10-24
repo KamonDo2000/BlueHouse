@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Resident</title>
+
+</head>
+<body layout:fragment="content">
+	<form action="/Position/saveposition" class="mt-5" method="post"
+		th:object="${position}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-5">Create Resident</h1>
+			<div class="row">
+				<div class=" col-6 mb-3">
+					<label for="idPosition" class="form-lable">ID Position</label>
+					<div>
+						<span th:if="${#fields.hasErrors('idPosition')}"
+							th:errors="*{idPosition}" class="text-danger"></span>
+					</div>
+
+					<input type="text" th:field="*{idPosition}" id="idPosition"
+						class="form-control" placeholder="ID Position"
+						aria-label="Username" aria-describedby="addon-wrapping" readonly="readonly">
+				</div>
+				<div class=" col-6 mb-3">
+					<label for="namePosition" class="form-lable">Name Position</label>
+					<div>
+						<span th:if="${#fields.hasErrors('namePosition')}"
+							th:errors="*{namePosition}" class="text-danger"></span>
+					</div>
+
+					<input type="text" th:field="*{namePosition}" id="namePosition"
+						class="form-control" placeholder="Name Positiont"
+						aria-label="Username" aria-describedby="addon-wrapping">
+				</div>
+				<div class=" col-6 mb-3">
+					<label for="prorogue" class="form-lable">Prorogue</label>
+					<div>
+						<span th:if="${#fields.hasErrors('prorogue')}"
+							th:errors="*{prorogue}" class="text-danger"></span>
+					</div>
+
+					<input type="text" th:field="*{prorogue}" id="prorogue"
+						class="form-control" placeholder="Prorogue" aria-label="Username"
+						aria-describedby="addon-wrapping">
+				</div>
+			</div>
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-primary btn-lg col-2" type="submit">Create
+				</button>
+				<a href="/Position/showlistposition" class="col-2 btn btn-secondary btn-lg" >Cancel
+			</a>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

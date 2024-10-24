@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Home Page</title>
+
+	<link rel="stylesheet" th:href="@{/common/css/home.css}" />
+</head>
+
+<body layout:fragment="content">
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img th:src="@{/common/img/ChungCu.png}" class="d-block w-100" alt="..." />
+			</div>
+			<div class="carousel-item">
+				<img th:src="@{/common/img/ChungCu2.png}" class="d-block w-100" alt="..." />
+			</div>
+		</div>
+		<button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Prev</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</button>
+	</div>
+
+	<div class="container mt-5 mb-5">
+		<div class="row justify-content-center align-items-stretch">
+			<!-- Image Section (30%) -->
+			<div class="col-md-4 d-flex">
+				<div class="card shadow-sm flex-fill">
+<<<<<<< HEAD
+					<img src="https://i.pinimg.com/564x/5a/06/72/5a06722e06d1358b0a63b839ab19198b.jpg" class="card-img-top img-fluid img-fixed" alt="User Image" />
+=======
+					<img th:if="${role == 'ROLE_RESIDENT' || role == 'ROLE_ADMIN'}" th:src="@{'/imgResident/' + ${userDetails.profile}}" class="card-img-top img-fluid img-fixed" alt="User Image">
+					<img th:if="${role == 'ROLE_MANAGE' || role == 'ROLE_EMPLOYEE'}" th:src="@{'/imgEmployee/' + ${userDetails.profile}}" class="card-img-top img-fluid img-fixed" alt="User Image">
+>>>>>>> Dung
+				</div>
+			</div>
+
+			<!-- User Information Section (70%) -->
+			<div class="col-md-8 d-flex">
+				<div class="card shadow-sm p-4 flex-fill">
+					<h3 class="card-title text-center">User Profile</h3>
+					<hr />
+					<div class="card-body" th:if="${role == 'ROLE_RESIDENT' || role == 'ROLE_ADMIN'}">
+						<p>
+							<strong>Name:</strong>
+							<span th:text="${userDetails.nameResident}"></span>
+						</p>
+						<p>
+							<strong>Phone Number:</strong>
+							<span th:text="${userDetails.phonenumber}"></span>
+						</p>
+						<p>
+							<strong>Gender:</strong>
+							<span th:text="${userDetails.gender}"></span>
+						</p>
+						<p>
+							<strong>Birthday:</strong>
+							<span th:text="${userDetails.birthday}"></span>
+						</p>
+						<p>
+							<strong>National ID:</strong>
+							<span th:text="${userDetails.identificationCard}"></span>
+						</p>
+						<p>
+							<strong>Country:</strong>
+							<span th:text="${userDetails.countryside}"></span>
+						</p>
+					</div>
+					<div class="card-body" th:if="${role == 'ROLE_MANAGE' || role == 'ROLE_EMPLOYEE'}">
+						<p>
+							<strong>Name:</strong>
+							<span th:text="${userDetails.fullName}"></span>
+						</p>
+						<p>
+							<strong>Phone Number:</strong>
+							<span th:text="${userDetails.phoneNumber}"></span>
+						</p>
+						<p>
+							<strong>Gender:</strong>
+							<span th:text="${userDetails.gender}"></span>
+						</p>
+						<p>
+							<strong>Birthday:</strong>
+							<span th:text="${userDetails.dateOfBirth}"></span>
+						</p>
+						<p>
+							<strong>National ID:</strong>
+							<span th:text="${userDetails.nationalID}"></span>
+						</p>
+						<p>
+							<strong>Country:</strong>
+							<span th:text="${userDetails.country}"></span>
+						</p>
+						<p>
+							<strong>Office:</strong>
+							<span th:text="${userDetails.office}"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

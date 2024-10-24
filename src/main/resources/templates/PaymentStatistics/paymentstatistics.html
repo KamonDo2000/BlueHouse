@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create IncomeBill</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- <style type="text/css">
+.chart {
+	height: 300px;
+	width: 400px;
+} 
+
+</style>-->
+</head>
+<body layout:fragment="content">
+	<div class="container text-center">
+		<h1 class="text-primary">PAYMENT STATISTICS</h1>
+		<div class="chart d-flex ">
+			<div class="d-flex">				
+				<div class="total-amount" id="totalAmount"></div>
+				<div id="donutchart" style="width: 400px; height: 250px;"></div>
+				<div id="donutchart1" style="width: 400px; height: 250px;"></div>
+			</div>
+		</div>
+	</div> 
+    
+    <div id = "notbill" class="container">
+    <h1>Bill Not Paid</h1>
+    	<table class="table" >
+    		
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">ID IncomeBill</th>
+				<th scope="col">Bill Date</th>
+				<th scope="col">Paymen Date</th>
+				<th scope="col">Employee</th>
+				<th scope="col">Status</th>
+				<th scope="col">Total</th>
+				<th scope="col">Detail</th>
+				<th sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" scope="col">Pay Bill</th>
+			</tr>
+		</thead>
+		<tbody th:each="bill : ${listapartmentbill}">
+			<tr>
+				<td th:text="${bill.idIncomeBill}"></td>
+				<td th:text="${bill.billDate}"></td>
+				<td th:text="${bill.paymentDate}"></td>
+				<td th:text="${bill.idEmployee != null ? bill.idEmployee.fullName : ' '}"></td>
+				<td th:text="${bill.status}"></td>
+				<td th:text="${bill.getTotalbill}"></td>
+				<td> <a th:href="@{/IncomeBillDetail/showlishtdetail(idbill=${bill.idIncomeBill})}"
+					target="blank"><i class="fa-solid fa-calendar-week"></i></a></td>
+				<td sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" > <a th:href="@{/IncomeBill/paybill(idbill=${bill.idIncomeBill})}" th:if="${bill.paymentDate == null}"
+					target="blank"><i class="fa-solid fa-file-invoice-dollar"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:replace="@{layout/page} :: pageAble"></div>
+    </div>
+	
+	<div id = "billpaid" class="container">
+		<h1>Bill Paid</h1>
+		<table class="table" >
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">ID IncomeBill</th>
+				<th scope="col">Bill Date</th>
+				<th scope="col">Paymen Date</th>
+				<th scope="col">Employee</th>
+				<th scope="col">Status</th>
+				<th scope="col">Total</th>
+				<th scope="col">Detail</th>
+				<th sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" scope="col">Pay Bill</th>
+			</tr>
+		</thead>
+		<tbody th:each="bill : ${listApartmentBillpaid}">
+			<tr>
+				<td th:text="${bill.idIncomeBill}"></td>
+				<td th:text="${bill.billDate}"></td>
+				<td th:text="${bill.paymentDate}"></td>
+				<td th:text="${bill.idEmployee != null ? bill.idEmployee.fullName : ' '}"></td>
+				<td th:text="${bill.status}"></td>
+				<td th:text="${bill.getTotalbill}"></td>
+				<td> <a th:href="@{/IncomeBillDetail/showlishtdetail(idbill=${bill.idIncomeBill})}"
+					target="blank"><i class="fa-solid fa-calendar-week"></i></a></td>
+				<td sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" > <a th:href="@{/IncomeBill/paybill(idbill=${bill.idIncomeBill})}" th:if="${bill.paymentDate == null}"
+					target="blank"><i class="fa-solid fa-file-invoice-dollar"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+	
+	<div id = "apa" class="container">
+    <h1>listApartment</h1>
+    	<table class="table" >    		
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">ID IncomeBill</th>
+				<th scope="col">Bill Date</th>
+				<th scope="col">Paymen Date</th>
+				<th scope="col">Employee</th>
+				<th scope="col">Status</th>
+				<th scope="col">Total</th>
+				<th scope="col">Detail</th>
+				<th sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" scope="col">Pay Bill</th>
+			</tr>
+		</thead>
+		<tbody th:each="bill : ${listApartment}">
+			<tr>
+				<td th:text="${bill.idIncomeBill}"></td>
+				<td th:text="${bill.billDate}"></td>
+				<td th:text="${bill.paymentDate}"></td>
+				<td th:text="${bill.idEmployee != null ? bill.idEmployee.fullName : ' '}"></td>
+				<td th:text="${bill.status}"></td>
+				<td th:text="${bill.getTotalbill}"></td>
+				<td> <a th:href="@{/IncomeBillDetail/showlishtdetail(idbill=${bill.idIncomeBill})}"
+					target="blank"><i class="fa-solid fa-calendar-week"></i></a></td>
+				<td sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" > <a th:href="@{/IncomeBill/paybill(idbill=${bill.idIncomeBill})}" th:if="${bill.paymentDate == null}"
+					target="blank"><i class="fa-solid fa-file-invoice-dollar"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:replace="@{layout/page} :: pageAble"></div>
+    </div>
+    
+    <div id = "finan" class="container">
+    <h1>Financial Support fee</h1>
+    	<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">billCode</th>
+						<th scope="col">nameFeeType</th>
+						<th scope="col">sponsorName</th>
+						<th scope="col">Date</th>
+						<th scope="col">price</th>					
+						<th scope="col">Active</th>
+					</tr>
+				</thead>
+				<tbody th:each="finSupfee : ${listFinan}">
+					<tr>
+						<td th:text="${finSupfee.billCode}"></td>
+						<td th:text="${finSupfee.nameFeeType}"></td>
+						<td th:text="${finSupfee.sponsorName}"></td>
+						<td th:text="${finSupfee.datefee}"></td>
+						<td th:text="${finSupfee.price}"></td>
+						<td><a class="text-decoration-none mr-2"
+							th:href="@{edit(idfinSupfee=${finSupfee.billCode})}"
+							target="blank"> <i class="fa-solid fa-pen-to-square"></i>
+						</a> <a href="#" th:attr="data-href=@{delete(idfinSupfee=${finSupfee.billCode})}" onclick="setDeleteUrl(this)" data-toggle="modal" data-target="#deleteModal"
+							target="blank"> <i class="fa-solid fa-trash"></i>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+	<div th:replace="@{layout/page} :: pageAble"></div>
+    </div>
+    
+    <div id = "vehi" class="container">
+    <h1>Vehicle Registration</h1>
+    	<table class="table ">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">idVehicle</th>
+					<th scope="col">vehicleNumber</th>
+					<th scope="col">registrationDate</th>
+					<th scope="col">expirationDate</th>
+					<th scope="col">feeTypeCode</th>
+					<th scope="col">apartmentVE</th>
+					<th scope="col">Active</th>
+				</tr>
+			</thead>
+			<tbody th:each="vehicleregi : ${listVehi}">
+
+				<tr>
+					<td th:text="${vehicleregi.idVehicle}"></td>
+					<td th:text="${vehicleregi.vehicleNumber}"></td>
+					<td th:text="${vehicleregi.registrationDate}"></td>
+					<td th:text="${vehicleregi.expirationDate}"></td>
+					<td th:text="${vehicleregi.feeTypeCode.nameFeetype}"></td>
+					<td th:text="${vehicleregi.apartmentVE.apartmentNumber}"></td>
+					<td><a
+						th:href="@{edit(idvehicle=${vehicleregi.idVehicle})}"
+						target="blank"><i class="fa-solid fa-pen-to-square"></i></a> <a
+						href="#"  sec:authorize="hasAnyRole('ADMIN','MANAGE','EMPLOYEE')" th:attr="data-href=@{delete(idvehicle=${vehicleregi.idVehicle})}"onclick="setDeleteUrl(this)" data-toggle="modal" data-target="#deleteModal"
+						target="blank"><i class="fa-solid fa-trash"></i></a></td>
+				</tr>
+			</tbody>
+		</table>
+	<div th:replace="@{layout/page} :: pageAble"></div>
+    </div>
+    
+    <div id = "spa" class="container">
+    <h1>Rental Space Contract</h1>
+    	<table class="table ">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Contract Code</th>
+					<th scope="col">Tenant Code</th>
+					<th scope="col">Duration</th>
+					<th scope="col">Move In Date</th>
+					<th scope="col">Move Out Date</th>
+					<th scope="col">Apartment Number</th>
+					<th scope="col">Name Manager</th>
+					<th scope="col">Active</th>
+				</tr>
+			</thead>
+			<tbody th:each="rentalSpa : ${listspa}">
+
+				<tr>
+					<td th:text="${rentalSpa.contractCode}"></td>
+					<td th:text="${rentalSpa.tenantCode}"></td>
+					<td th:text="${rentalSpa.duration}"></td>
+					<td th:text="${rentalSpa.moveInDate}"></td>
+					<td th:text="${rentalSpa.moveOutdate}"></td>
+					<td th:text="${rentalSpa.idApa.apartmentNumber}"></td>
+					<td th:text="${rentalSpa.managerCodeContract.fullName}"></td>
+					<td><a
+						th:href="@{edit(idrenspacon=${rentalSpa.contractCode})}"
+						target="blank"><i class="fa-solid fa-pen-to-square"></i></a> <a
+						href="#" th:attr="data-href=@{delete(idrenspacon=${rentalSpa.contractCode})}" onclick="setDeleteUrl(this)" data-toggle="modal" data-target="#deleteModal"
+						target="blank"><i class="fa-solid fa-trash"></i></a></td>
+				</tr>
+			</tbody>
+		</table>
+		
+	<div th:replace="@{layout/page} :: pageAble"></div>
+    </div>
+    <script th:src="@{/PaymentStatistics/js/pay.js}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Participant Management</title>
+</head>
+
+<body layout:fragment="content">
+	
+	<form id="form-data" class="mt-5" th:action="update" method="post" th:object="${participants}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3">Update Participant</h1>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				 <div class="col-5">
+					<label for="mission" class="form-lable">Mission</label>
+					<input type="text" th:field="*{idParticipants}" hidden="hidden"/>
+					<input type="text" th:field="*{mission}" id="mission" class="form-control" placeholder="Mission"/>
+				</div> 
+				
+				 <div class="col-5">
+					<label for="note" class="form-lable">Take Note</label>
+					<input type="text" th:field="*{note}" id="note" class="form-control" placeholder="Take Note"/>
+				</div> 
+
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-primary col-2" type="submit">
+					Update
+				</button>
+
+				<button  th:data-value="${participants.IDEvent.idEvent}" onclick="window.location.href='/event/detail?eventID='+this.dataset.value;"  class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+			</div>
+		</div>
+	</form>
+
+</body>
+
+</html>

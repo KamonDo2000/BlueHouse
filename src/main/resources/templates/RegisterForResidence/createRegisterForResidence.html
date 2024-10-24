@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../fontawesome-free-6.5.2-web/css/all.min.css">
+</head>
+<body layout:fragment="content">
+	<form id="form-data" th:action="update" class="mt-5" method="post" th:object="${registesresi}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3 text-primary" id="title-Text">title text</h1>
+			
+			<div class="row pb-3">
+			
+				<div class="col-4 ">
+					<label for="id-residence" class="form-lable">ID Residence </label>
+					<input type="text" th:field="*{idResidence}" id="id-residence" class="form-control" placeholder="ID Residence">
+					<div th:if="${#fields.hasErrors('idResidence')}" th:errors="*{idResidence}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="idResi-error"></span>
+                    </div>
+				</div>
+
+				<div class=" col-4">
+					<label for="relationshipWithHomeowner" class="form-lable">Relation Ship With Homeowner</label>
+					<input type="text" th:field="*{relationshipWithHomeowner}" id="relationshipWithHomeowner" class="form-control" placeholder="Relation Ship With Homeowner">
+					<div th:if="${#fields.hasErrors('relationshipWithHomeowner')}" th:errors="*{relationshipWithHomeowner}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="rela-error"></span>
+                    </div>
+				</div>
+				<div class="col-4">
+					<label for="type" class="form-lable col-6">Type</label> 
+					<select class="form-control col-12" aria-label="Disabled select example" th:field="*{type}" id="type">
+						<option value="Luu Tru Ngan Han">Luu Tru Ngan Han</option>
+						<option value="Luu Tru Dai Han">Luu Tru Dai Han</option>
+					</select>
+					<div th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="type-error"></span>
+                    </div>
+				</div>
+			</div>
+			<div class="row pb-3">
+				<div class="col-4">
+					<label for="dateOfBirth" class="form-lable ">Date Of Birth</label>
+					<input type="date" th:field="*{dateOfBirth}" id="dateOfBirth" class="form-control">
+					<div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="dateBirth-error"></span>
+                    </div>
+				</div>
+				
+				<div class="col-4">
+					<label for="moveOutdate" class="form-lable ">Move In Date</label>
+					<input type="date" th:field="*{moveInDate}" id="moveInDate" class="form-control">
+					<div th:if="${#fields.hasErrors('moveInDate')}" th:errors="*{moveInDate}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="moveInDate-error"></span>
+                    </div>
+				</div>
+				
+				<div class="col-4">
+					<label for="moveOutDate" class="form-lable ">Move Out Date</label>
+					<input type="date" th:field="*{moveOutDate}" id="moveOutDate" class="form-control">
+					<div th:if="${#fields.hasErrors('moveOutDate')}" th:errors="*{moveOutDate}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="moveOutDate-error"></span>
+                    </div>
+				</div>
+			</div>
+			
+			<div class="row pb-4">
+				<div class=" col-4">
+					<label for="phone" class="form-lable">Phone</label>
+					<input type="text" th:field="*{phone}" id="phone" class="form-control" placeholder="Phone">
+					<div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="phone-error"></span>
+                    </div>
+				</div>
+				
+				<div class=" col-4">
+					<label for="idNational" class="form-lable">Id National</label>
+					<input type="text" name="idNational" id="idNational" class="form-control" placeholder="Id National">
+					<div th:if="${#fields.hasErrors('idNational')}" th:errors="*{idNational}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="idNati-error"></span>
+                    </div>
+				</div>
+				
+				<div class="col-4">
+					<label for="idApartmentResi" class="form-lable">Apartment Number</label> 
+					<select th:field="*{idApartmentResi}" class="form-control" required>
+						<th:block th:each="apartment : ${listapa}">
+							<option th:value="${apartment.idApartment}" th:text="${apartment.apartmentNumber}"></option>
+						</th:block>
+					</select>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="idApa-error"></span>
+                    </div>
+				</div>
+				
+				<!-- <div class="col-3">
+					<label for="idResidentResi" class="form-lable">Name Resident</label> <select
+						th:field="*{idResidentResi}" class="form-control" required>
+						<th:block th:each="resident : ${listresi}">
+							<option th:value="${resident.idResident}"
+								th:text="${resident.nameResident}"></option>
+						</th:block>
+					</select>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="idResi-error"></span>
+                    </div>
+				</div> -->
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" id="update" class="btn btn-primary col-2" type="submit">
+					Update
+				</button> 
+				<button onclick="validate(event)" id="create" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+				
+				<button id="back-list" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+				
+			</div>
+			
+		</div>
+	</form>
+	
+	<script th:src="@{/RegisterForResidence/js/update.js}"></script>
+</body>
+</html>

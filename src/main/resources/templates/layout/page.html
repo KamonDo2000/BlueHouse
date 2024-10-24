@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body th:fragment="pageAble">
+	<!-- Phân trang -->
+	<div class="float-right mr-3">
+
+		<ul class="pagination">
+			<li class="page-item disabled" th:if="${currentPage == 1}">
+				<a class="page-link " href="#">First</a>
+			</li>
+			<li class="page-item " th:if="${currentPage > 1}">
+				<a class="page-link" th:href="@{${path}(page=${1}, searchKeyword=${searchKeyword})}">First</a>
+			</li>
+			<li class="page-item disabled" th:if="${currentPage == 1}">
+				<a class="page-link " href="#">Previous</a>
+			</li>
+			<li class="page-item " th:if="${currentPage > 1}">
+				<a class="page-link"
+					th:href="@{${path}(page=${currentPage - 1}, searchKeyword=${searchKeyword})}">Previous</a>
+			</li>
+			<!-- Left -->
+			<li class="page-item " th:if="${currentPage >= 3}">
+				<a class="page-link"
+					th:href="@{${path}(page=${1}, searchKeyword=${searchKeyword})}"> 1</a>
+			</li>
+			<li class="page-item  " th:if="${currentPage > 3}">
+				<a class="page-link"
+					th:href="@{${path}(page=${2}, searchKeyword=${searchKeyword})}"> 2</a>
+			</li>
+			<li class="page-item  disabled" th:if="${currentPage > 4}">
+				<a class="page-link"
+					href="#">. . .</a>
+			</li>
+
+			<!-- Middle -->
+			<span th:each="i : ${#numbers.sequence(1, totalPages)}">
+				<li class="" th:if="${currentPage == i-1}"><a class="page-link"
+						th:href="@{${path}(page=${i}, searchKeyword=${searchKeyword})}" th:text="${i}"></a></li>
+				<li class=" " th:if="${currentPage == i}" style="border-radius: 0;"><a
+						class="page-link bg-primary text-white" href="#" th:text="${i}"></a></li>
+				<li class="" th:if="${currentPage == i+1}"><a class="page-link"
+						th:href="@{${path}(page=${i}, searchKeyword=${searchKeyword})}" th:text="${i}"></a></li>
+			</span>
+
+			<!-- Right -->
+			<li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
+				<a class="page-link"
+					href="#">. . .</a>
+			</li>
+			<li class="page-item" th:if="${currentPage < totalPages - 2}">
+				<a class="page-link"
+					th:href="@{${path}(page=${totalPages-1}, searchKeyword=${searchKeyword})}" th:text="${totalPages-1}"></a>
+			</li>
+			<li class="page-item" th:if="${currentPage <= totalPages - 2}">
+				<a class="page-link"
+					th:href="@{${path}(page=${totalPages}, searchKeyword=${searchKeyword})}" th:text="${totalPages}"></a>
+			</li>
+
+
+			<li class="page-item" th:if="${currentPage < totalPages}">
+				<a class="page-link"
+					th:href="@{${path}(page=${currentPage + 1}, searchKeyword=${searchKeyword})}">Next</a>
+			</li>
+			<li class="page-item disabled" th:if="${currentPage == totalPages}">
+				<a class="page-link" href="#">Next</a>
+			</li>
+			<li class="page-item" th:if="${currentPage < totalPages}">
+				<a class="page-link"
+					th:href="@{${path}(page=${totalPages}, searchKeyword=${searchKeyword})}">Last</a>
+			</li>
+			<li class="page-item disabled" th:if="${currentPage == totalPages}">
+				<a class="page-link" href="#">Last</a>
+			</li>
+
+		</ul>
+
+	</div>
+
+</body>
+
+</html>

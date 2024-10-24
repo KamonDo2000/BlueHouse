@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Event Management</title>
+	<link rel="stylesheet" th:href="@{/account/css/list.css}" />
+</head>
+
+<body layout:fragment="content">
+	<div class="m-5 mt-4">
+		<div class="h1 text-center mb-4">
+			List Event My Join
+		</div>
+
+		<div class=" tableFixHead border-right border-left border-bottom mt-3">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Start Day</th>
+						<th scope="col">Start Time</th>
+						<th scope="col">End Day</th>
+						<th scope="col">End Time</th>
+						<th scope="col">Location</th>
+						<th scope="col">Count Participant</th>
+
+						<th scope="col">Detail</th>
+					</tr>
+				</thead>
+				<tbody th:each="event : ${listEvent}">
+					<tr>
+						<td th:text="${event.nameEvent}"></td>
+						<td th:text="${event.startDate}"></td>
+						<td th:text="${event.startTime}"></td>
+						<td th:text="${event.endDate}"></td>
+						<td th:text="${event.endTime}"></td>
+						<td th:text="${event.location}"></td>
+						<td th:text="${event.numberOfParticipants}"></td>
+
+						<td>
+							<a th:data-value="${event.idEvent}" onclick="window.location.href='detail?eventID='+this.dataset.value;" class="text-decoration-none mr-2" style="cursor: pointer;">
+								<i class="fa-solid fa-list"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+
+	<script th:src="@{/account/js/list.js}"></script>
+</body>
+
+</html>

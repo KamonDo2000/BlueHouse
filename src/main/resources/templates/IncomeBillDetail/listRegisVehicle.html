@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>List Registration Vehicle</title>
+<script>
+    function setDeleteUrl(element) {
+        const url = element.getAttribute('data-href');
+        document.getElementById('confirmDeleteBtn').setAttribute('onclick', `confirmDelete('${url}')`);
+    }
+
+    function confirmDelete(url) {
+        window.location.href = url;
+    }
+</script>
+</head>
+<body layout:fragment="content">
+	<div class="m-5">
+			<h1 class="text-primary text-center">List Registration Vehicle</h1>
+		</div>
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+				<form class="d-flex" action="/searchIncobill" method="GET">
+					<input class="form-control me-2" type="text" name="searchKeyword"
+						placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+			<h5>
+				ID IncomeBill: <span th:text="${IncomeBill.idIncomeBill}"></span>
+			</h5>
+		</nav>
+		<div class="table-responsive tableFixHead border-right border-left border-bottom">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">ID Vehicle</th>
+						<th scope="col">Vehicle Number</th>
+						<th scope="col">Name Feetype</th>
+						<th scope="col">Price</th>
+						<th scope="col">Registration Date</th>
+						<th scope="col">Expiration Date</th>
+						<th scope="col">ID Apartment</th>
+						<th scope="col">Active</th>
+					</tr>
+				</thead>
+				<tbody th:each="Regis : ${listregis}">
+					<tr>
+						<td th:text="${Regis.idVehicle}"></td>
+						<td th:text="${Regis.vehicleNumber}"></td>
+						<td th:text="${Regis.feeTypeCode.nameFeetype}"></td>
+						<td th:text="${Regis.feeTypeCode.price}"></td>
+						<td th:text="${Regis.registrationDate}"></td>
+						<td th:text="${Regis.expirationDate}"></td>
+						<td th:text="${Regis.apartmentVE.idApartment}"></td>
+						<td><a
+							href="#"
+							th:attr="data-href=@{/IncomeBillDetail/saveregisdetail(idbill=${IncomeBill.idIncomeBill},idvehicle=${Regis.idVehicle})}" 
+					onclick="setDeleteUrl(this)" data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-file-invoice-dollar"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Pay Bill</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               You Surely Want To Pay This Bill?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Pay Bill</button>
+            </div>
+        </div>
+    </div>
+</div>
+		</div>
+</body>
+</html>

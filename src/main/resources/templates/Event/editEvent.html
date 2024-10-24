@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Event Management</title>
+	<link rel="stylesheet" th:href="@{/notification/css/noti.css}" />
+</head>
+
+<body layout:fragment="content">
+	<form id="form-data" class="mt-5" th:action="saveEdit" method="post" th:object="${event}" enctype="multipart/form-data">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3">Update Event</h1>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-11">
+					<label for="name" class="form-lable">Name Event</label>
+					<input type="text" th:field="*{idEvent}" hidden="hidden" />
+					<input type="text" th:field="*{nameEvent}" id="name" class="form-control" placeholder="Name Event" readonly="readonly" />
+					<div id="error-name" class="text-danger"></div>
+				</div>
+
+				<div class="col-11 mt-3">
+					<label for="location" class="form-lable">Location</label>
+					<input type="text" th:field="*{location}" id="location" class="form-control" placeholder="Location" />
+					<div id="error-location" class="text-danger"></div>
+				</div>
+
+				<div class="col-5 mt-3">
+					<label for="startDate" class="form-lable">Day Start</label>
+					<input type="date" th:field="*{startDate}" id="startDate" class="form-control" placeholder="Date Start" />
+					<div id="error-startDate" class="text-danger"></div>
+				</div>
+
+				<div class="col-5 mt-3">
+					<label for="endDate" class="form-lable">Day End</label>
+					<input type="date" th:field="*{endDate}" id="endDate" class="form-control" placeholder="Date End" />
+					<div id="error-endDate" class="text-danger"></div>
+				</div>
+
+				<div class="col-5 mt-3">
+					<label for="startTime" class="form-lable">Time Start</label>
+					<input type="time" th:field="*{startTime}" id="startTime" class="form-control" placeholder="Time Start" />
+					<div id="error-startTime" class="text-danger"></div>
+				</div>
+
+				<div class="col-5 mt-3">
+					<label for="endTime" class="form-lable">Time End</label>
+					<input type="time" th:field="*{endTime}" id="endTime" class="form-control" placeholder="Time End" />
+					<div id="error-endTime" class="text-danger"></div>
+				</div>
+
+				<div class="col-11 mt-3">
+					<label for="myfile">Select a file:</label>
+					<input name="imgEvent" type="file" id="inputGroupFile01" />
+				</div>
+			</div>
+
+			<div class="d-flex justify-content-end mb-4">
+				<button class="btn btn-primary col-2" type="submit">
+					Save Editor
+				</button>
+
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+
+				<button onclick="window.location.href='list';" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+			</div>
+		</div>
+	</form>
+
+	<script th:src="@{/event/js/update.js}"></script>
+
+	<script th:src="@{/lib/choosen/docsupport/prototype-1.7.0.0.js}"></script>
+	<script th:src="@{/lib/choosen/chosen.proto.js}"></script>
+	<script th:src="@{/lib/choosen/docsupport/prism.js}"></script>
+	<script th:src="@{/lib/choosen/docsupport/init.proto.js}"></script>
+
+</body>
+
+</html>

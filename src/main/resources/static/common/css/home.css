@@ -1,0 +1,16 @@
+.carousel-item img {
+  height: 350px;
+}
+.row {
+  display: flex;
+}
+
+.img-fixed {
+  width: 100%;
+  object-fit: cover;
+  height: 100%; /* Set the image height to match the height of the card */
+}
+
+.card {
+  height: 100%;
+}

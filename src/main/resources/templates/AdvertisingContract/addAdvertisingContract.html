@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../fontawesome-free-6.5.2-web/css/all.min.css">
+</head>
+<body layout:fragment="content">
+	<form id="form-data" th:action="update" class="mt-5" method="post" th:object="${advcontract}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3 text-primary" id="title-Text">title text</h1>
+			
+			<div class="row pb-3">
+			
+				<div class="col-4 ">
+					<label for="contract-Code" class="form-lable">Contract Code </label>
+					<input type="text" th:field="*{contractCode}" id="contract-Code" class="form-control" placeholder="Contract Code">
+					<div th:if="${#fields.hasErrors('contractCode')}" th:errors="*{contractCode}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="contractCode-error"></span>
+                    </div>
+				</div>
+
+				<div class=" col-4">
+					<label for="contractName" class="form-lable">Contract Name</label>
+					<input type="text" th:field="*{contractName}" id="contractName" class="form-control" placeholder="Contract Name">
+					<div th:if="${#fields.hasErrors('contractName')}" th:errors="*{contractName}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="contrac-error"></span>
+                    </div>
+				</div>		
+				
+				<div class=" col-4">
+					<label for="company" class="form-lable">Company</label>
+					<input type="text" th:field="*{company}" id="company" class="form-control" placeholder="Company">
+					<div th:if="${#fields.hasErrors('company')}" th:errors="*{company}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="comany-error"></span>
+                    </div>
+				</div>			
+			</div>
+			
+			<div class="row pb-3">
+				
+				<div class="col-3">
+					<label for="daySign" class="form-lable ">Day Sign</label>
+					<input type="date" th:field="*{daySign}" id="daySign" class="form-control">
+					<div th:if="${#fields.hasErrors('daySign')}" th:errors="*{daySign}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="daySign-error"></span>
+                    </div>
+				</div>
+				
+				<div class=" col-3">
+					<label for="numberOfAdv" class="form-lable">numberOfAdv</label>
+					<input type="text" th:field="*{numberOfAdv}" id="numberOfAdv" class="form-control" placeholder="numberOfAdv">
+					<div th:if="${#fields.hasErrors('numberOfAdv')}" th:errors="*{numberOfAdv}" class="text-danger"></div>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="numberOfAdv-error"></span>
+                    </div>
+				</div>
+				
+				<!-- <div class="col-3">
+					<label for="empadv" class="form-lable">empadv</label> 
+					<select th:field="*{empadv}" class="form-control" required>
+						<th:block th:each="emp : ${listemp}">
+							<option th:value="${emp.employeeID}" th:text="${emp.fullName}"></option>
+						</th:block>
+					</select>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="empadv-error"></span>
+                    </div>
+				</div> -->
+				
+				<div class="col-3">
+					<label for="typeadv" class="form-lable">typeadv</label> <select
+						th:field="*{typeadv}" class="form-control" required>
+						<th:block th:each="fee : ${listfee}">
+							<option th:value="${fee.idFeetype}"
+								th:text="${fee.nameFeetype}"></option>
+						</th:block>
+					</select>
+					
+					<div class="error-message text-danger pt-3">
+                     	<span id="typeadv-error"></span>
+                    </div>
+				</div>
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" id="update" class="btn btn-primary col-2" type="submit">
+					Update
+				</button> 
+				<button onclick="validate(event)" id="create" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+				
+				<button id="back-list" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+				
+			</div>
+			
+		</div>
+	</form>
+	
+	<script th:src="@{/AdvertisingContract/js/AdvertisingContract.js}"></script>
+</body>
+</html>

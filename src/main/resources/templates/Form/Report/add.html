@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body layout:fragment="content">
+    <div class="container">
+        <form th:action="add" th:object="${form}" method="post"  enctype="multipart/form-data">
+            <div class="h2 text-center mt-2">Report</div>
+            <div class="form-group">
+                <span class="form-control border-left-0 border-right-0 border-top-0" th:text="${'Resident: ' + form.resident.idResident + ' - ' + form.resident.nameResident}" > </span>                             
+                    <input type="text" class="form-control" id="resident" name="resident" th:field="*{resident}" required hidden>           
+                </div>
+            <div class="form-group">
+                <label class="ml-2" >Note</label>
+                <textarea type="text" class="form-control" id="note" name="note"  th:field="*{note}" required  style="height: 150px;">
+                    </textarea>
+            </div>
+            <label for="file">Please add picture for more information:</label>
+            <br />
+            <input type="file" id="file" name="files"  multiple/><br />
+            <div class="form-group mt-3 w-25 float-right d-flex">
+                <a href="/" class="btn btn-secondary w-100" > <span class="h5">Cancel</span></a>
+                <button type="submit" class="btn btn-primary w-100 ml-3" > <span class="h5">Send</span></button>
+               
+            </div>
+        </form>
+    </div>
+</body>
+</html>

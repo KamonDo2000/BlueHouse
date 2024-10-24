@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+
+<body th:fragment="header">
+	<header class="d-flex py-2">
+		<div class="Icon col-2 nav-link">
+			<a href="/">
+				<span class="text-danger">/</span>
+				<span class="text-dark">B l u e H o u s e</span>
+			</a>
+		</div>
+
+		<div class="col-7 d-flex align-items-center justify-content-center">
+			<ul class="nav">
+				<li sec:authorize="hasRole('RESIDENT') or hasRole('ADMIN')" class="nav-item"><a class="nav-link" href="/ExpenseBill/show">
+						ExpenseBill </a></li>
+				<li sec:authorize="hasRole('RESIDENT') or hasRole('ADMIN')" class="nav-item"><a class="nav-link" href="/IncomeBill/showinvoiceapratmentbill">
+						Invoice Apartment </a></li>
+				<li class="nav-item"><a class="nav-link" href="/Administrators/showlistadminis">
+						Administrators </a></li>
+
+
+				<li class="nav-item">
+					<a class="nav-link" href="/employee/"> Employee </a>
+				</li>
+
+				<li sec:authorize="hasAnyRole('ADMIN', 'MANAGE')" class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+						Notification
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="/notification/add">New Notification</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="/notification/listSend">List Sent</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-3 d-flex align-items-center justify-content-end">
+			<a class="noti nav-link " href="/notification/listSeen">
+				<span th:if="${numberKey >= 1}" class="badge" th:text="${numberKey}"></span>
+				<i class="fa-regular fa-bell bell"></i>
+			</a>
+
+			<div th:if="${userName != ''}">
+				<a class="noti nav-link" th:data-value="${userName}" onclick="window.location.href='/account/changePass?userName='+this.dataset.value;">
+					<i class="fa-solid fa-circle-user" style="font-size: x-large;"></i>
+				</a>
+			</div>
+
+			<button onclick="window.location.href='/logout';" type="button" class="btn btn-secondary">
+				Sign Out
+			</button>
+		</div>
+	</header>
+</body>
+
+</html>

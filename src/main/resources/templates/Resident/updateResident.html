@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Resident</title>
+<body layout:fragment="content">
+	<form action="/Resident/saveupdateresident" class="mt-5" method="post" th:object="${resident}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-5">Create Resident</h1>
+			<div class="row">
+				<div class="col-3 ">
+					<label for="idresident" class="form-lable">ID Resident</label>
+					<p id="erroid"></p>
+					<input type="hidden" th:field="*{idResident}" id="idResident"
+						class="form-control" placeholder="ID Resident"
+						aria-label="Username" aria-describedby="addon-wrapping">
+				</div>
+				<div class="col-3 ">
+					<label class="form-check">Gender</label>
+					<p id="erro"></p>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" th:field="*{gender}" type="radio"
+							id="gender" value="Male" checked> <label
+							class="form-check-label" for="gender">Male</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" th:field="*{gender}" type="radio"
+							id="gender" value="Female"> <label
+							class="form-check-label" for="gender">Female </label>
+					</div>
+				</div>
+
+				<div class=" col-6">
+					<label for="nameresident" class="form-lable">Name Resident</label>
+					<p id="erroname"></p>
+					<input type="text" th:field="*{nameResident}" id="nameResident"
+						class="form-control" placeholder="Name Resident"
+						aria-label="Username" aria-describedby="addon-wrapping">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<label for="idresident" class="form-lable ">Birth Day</label>
+					<p id="errobirthday"></p>
+					<input type="date" th:field="*{birthday}"  id="birthday"
+						class="form-control" placeholder="Birth Day" aria-label="Username"
+						aria-describedby="addon-wrapping">
+				</div>
+
+				<div class=" col-6">
+					<label for="nameresident" class="form-lable">Identifi Card</label>
+					<p id="erroidentificard"></p>
+					<input type="text" th:field="*{identificationCard}" 
+						id="identificationCard" class="form-control"
+						placeholder="Identifi Card" aria-label="Username"
+						aria-describedby="addon-wrapping">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<label for="idresident" class="form-lable ">Phone Number</label>
+					<p id="errophone"></p>
+					<input type="text" th:field="*{phonenumber}" id="phonenumber"
+						class="form-control" placeholder="Phone Number"
+						aria-label="Username" aria-describedby="addon-wrapping">
+				</div>
+
+				<div class=" col-6">
+					<label for="nameresident" class="form-lable">Work Pleace</label>
+					<p id="erroworkpleace"></p>
+					<input type="text" name="workplace" th:field="*{workplace}" id="workplace"
+						class="form-control" placeholder="Work Pleace"
+						aria-label="Username" aria-describedby="addon-wrapping">
+				</div>
+			</div>
+			<div class="row pb-3">
+				<div class="col-6">
+					<label for="idApartment" class="form-lable ">ID Apartment</label>
+					<p id="erroidapart"></p>
+					<select id="idApartment" name="idApartment"  th:field="*{idApartment}">
+						<option th:each="apartment : ${listapartment}" th:value="${apartment.idApartment}"
+							th:text="${apartment.idApartment}"></option>
+					</select>
+				
+				</div>
+
+				<div class=" col-6">
+					<label for="nameresident" class="form-lable">Relationship
+						House</label>
+					<p id="errorelation"></p>
+					<input type="text" name="relationshipHousehold" th:field="*{relationshipHousehold}" 
+						id="relationshipHousehold" class="form-control"
+						placeholder="Relationship House" aria-label="Username"
+						aria-describedby="addon-wrapping">
+				</div>
+			</div>
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-primary btn-lg col-2" type="submit">Update
+				</button>
+				<button class="btn btn-secondary btn-lg col-2 ml-2" type="reset">Cancel
+				</button>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

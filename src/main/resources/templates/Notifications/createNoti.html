@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<title>Create New Notification</title>
+	<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+</head>
+
+<body layout:fragment="content">
+
+	<div class="text-center pt-5">
+		<h1>New Notification</h1>
+	</div>
+	<form method="post" action="save" class="container" th:object="${Notification}" enctype="multipart/form-data">
+		<div class="form-group mt-3 d-flex justify-content-center">
+			<div class="col-10">
+				<label for="username" class="h5">Title</label>
+				<input th:field="*{title}" class="form-control" id="username" placeholder="Input Title" />
+			</div>
+		</div>
+
+		<div class="form-group mt-3 d-flex justify-content-center">
+			<div class="col-10">
+				<label for="content" class="h5">Content</label>
+				<textarea id="contentNoti" placeholder="Content" class="form-control" th:field="*{contentNoti}" autocomplete="off"></textarea>
+			</div>
+		</div>
+
+		<div class="form-group mt-3 d-flex justify-content-center">
+			<div class="col-10">
+				<input name="imgNotification" type="file" id="inputGroupFile01" />
+			</div>
+		</div>
+
+		<div class="form-group mt-3 d-flex flex-row-reverse">
+			<button type="submit" class="btn btn-warning px-5">Choose Receiver</button>
+		</div>
+	</form>
+	
+
+	<script type="text/javascript">
+		ClassicEditor.create(document.querySelector("#contentNoti")).catch((error) => {
+			console.error(error);
+		});
+	</script>
+
+</body>
+
+</html>

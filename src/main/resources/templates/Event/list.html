@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Event</title>
+	<link rel="stylesheet" th:href="@{/account/css/list.css}" />
+
+	<style type="text/css">
+		.table-container {
+			overflow-x: auto;
+			position: relative;
+		}
+
+		th.sticky-left,
+		td.sticky-left {
+			position: sticky;
+			left: 0;
+			background: white;
+			z-index: 1;
+		}
+
+		th.sticky-right,
+		td.sticky-right {
+			position: sticky;
+			right: 0;
+			background: white;
+			z-index: 1;
+		}
+
+		th.sticky-left {
+			z-index: 2;
+		}
+
+		th.sticky-right {
+			z-index: 2;
+		}
+	</style>
+
+</head>
+
+<body layout:fragment="content">
+	<div class="m-5 mt-4">
+		<div class="h1 text-center mb-4">
+			List Event
+		</div>
+
+		<div class="text-center d-flex justify-content-end">
+			<a href="add">
+				<button type="button" class="btn btn-info">+ New Event</button>
+			</a>
+		</div>
+
+		<div class=" tableFixHead border-right border-left border-bottom mt-3 table-container">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th class="sticky-left" scope="col">Name</th>
+						<th scope="col">Start Day</th>
+						<th scope="col">Start Time</th>
+						<th scope="col">End Day</th>
+						<th scope="col">End Time</th>
+						<th scope="col">Location</th>
+						<th scope="col">Count Participant</th>
+
+						<th class="sticky-right" scope="col">
+							Action
+						</th>
+					</tr>
+				</thead>
+				<tbody th:each="event : ${listEvent}">
+					<tr>
+						<td class="sticky-left" th:text="${event.nameEvent}"></td>
+						<td th:text="${event.startDate}"></td>
+						<td th:text="${event.startTime}"></td>
+						<td th:text="${event.endDate}"></td>
+						<td th:text="${event.endTime}"></td>
+						<td th:text="${event.location}"></td>
+						<td th:text="${event.numberOfParticipants}"></td>
+
+						<td class="sticky-right">
+							<a href="/ExpenseBill/createbillevent" class="text-decoration-none mr-2">
+								<i class="fa-solid fa-file-invoice-dollar"></i>
+							</a>
+
+							<a th:data-value="${event.idEvent}" onclick="window.location.href='detail?eventID='+this.dataset.value;" class="text-decoration-none mr-2" style="cursor: pointer;">
+								<i class="fa-solid fa-list"></i>
+							</a>
+
+							<a th:data-value="${event.idEvent}" onclick="window.location.href='edit?eventID='+this.dataset.value;" class="text-decoration-none mr-2" style="cursor: pointer;">
+								<i class="fa-solid fa-pen-to-square pencil"></i>
+							</a>
+
+							<a th:data-value="${event.idEvent}" onclick="window.location.href='delete?eventID='+this.dataset.value;" class="text-decoration-none mr-2" style="cursor: pointer;">
+								<i class="fa-solid fa-trash trash"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+
+	<script th:src="@{/account/js/list.js}"></script>
+</body>
+
+</html>

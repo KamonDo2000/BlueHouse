@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.head-icon {
+  background-color: rgb(136, 196, 249);
+  padding: 2.5rem !important;
+  cursor: default;
+}
+
+.line-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.line-container::before,
+.line-container::after {
+  content: "";
+  flex: 0 0 25%;
+  border-bottom: 1px solid #000;
+}
+
+.line-container:not(:empty)::before {
+  margin-right: 10px;
+}
+
+.line-container:not(:empty)::after {
+  margin-left: 10px;
+}
+
+a {
+  text-decoration: unset !important;
+  color: inherit !important;
+}
+a:hover {
+  text-decoration: unset !important;
+  color: inherit !important;
+}

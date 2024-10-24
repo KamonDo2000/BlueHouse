@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>List ExpenseBill</title>
+<script>
+    function setDeleteUrl(element) {
+        const url = element.getAttribute('data-href');
+        document.getElementById('confirmDeleteBtn').setAttribute('onclick', `confirmDelete('${url}')`);
+    }
+
+    function confirmDelete(url) {
+        window.location.href = url;
+    }
+</script>
+</head>
+
+<body layout:fragment="content" > 
+<div class="m-5">
+<h1>List ExpenseBill</h1>
+	<div class="d-flex justify-content-between">
+	<nav class="navbar navbar-light bg-light">
+		<div class="container-fluid">
+			<form class="d-flex" action="/ExpenseBill/searchexpensebill" method="GET">
+				<input class="form-control me-2" type="text" name="searchKeyword" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success" type="submit">Search</button>
+			</form>
+		</div>
+	</nav>
+	<div class="d-flex justify-content-end">
+	<a th:href="@{/ExpenseBill/createdetail}"
+					target="blank">
+   <button sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE') or hasRole('ADMIN')" class="btn btn-primary m-2" type="submit">Create ExpenseDetail</button></a>
+	<a th:href="@{/ExpenseBill/create}"
+					target="blank">
+   <button sec:authorize="hasRole('EMPLOYEE')or hasRole('MANAGE') or hasRole('ADMIN')" class="btn btn-primary m-2" type="submit">Create ExpenseBill</button></a>
+	</div>
+	</div>
+	
+	<div class="table-responsive tableFixHead border-right border-left border-bottom">
+	<table class="table">
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">ID ExpenseBill</th>
+				<th scope="col">Expensebill Date</th>
+				<th scope="col">Issuer</th>
+				<th scope="col">Total</th>
+				<th scope="col">Detail</th>
+			</tr>
+		</thead>
+		<tbody th:each="bill : ${listexpen}">
+			<tr>
+				<td th:text="${bill.idExpenseBill}"></td>
+				<td th:text="${bill.expenseDate}"></td>
+				<td > <span th:text="${bill.idEmployee.fullName}" th:if="${bill!= null && bill.idEmployee != null}"></span>
+				<span th:text="${bill.idResident.nameResident}" th:if="${bill!= null && bill.idResident != null}"></span> </td>
+				<td th:text="${bill.getTotalbill}"></td>
+				<td> <a th:href="@{/ExpenseBill/listdetail(idbill=${bill.idExpenseBill})}"
+					target="blank"><i class="fa-solid fa-calendar-week"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div th:replace="~{@{layout/page} :: pageAble}" ></div>
+	</div>
+</body>
+
+</html>

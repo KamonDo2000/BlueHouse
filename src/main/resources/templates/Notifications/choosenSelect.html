@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<title>Choose Receiver</title>
+	<link rel="stylesheet" th:href="@{/notification/css/noti.css}" />
+</head>
+
+<body layout:fragment="content">
+	<div class="text-center pt-5">
+		<h1>Choose Receiver</h1>
+	</div>
+
+	<div class="row m-0 form-group mt-3 justify-content-center">
+		<div class="col-10">
+			<div class="form-group d-flex justify-content-around">
+				<div class="form-check">
+					<input type="radio" class="form-check-input" id="All" name="sending" value="All" checked />
+					<label class="form-check-label" for="All">Send All</label>
+				</div>
+				<div class="form-check">
+					<input type="radio" class="form-check-input" id="Emp" name="sending" value="Emp" />
+					<label class="form-check-label" for="Emp">Send All Employee</label>
+				</div>
+				<div class="form-check">
+					<input type="radio" class="form-check-input" id="Resi" name="sending" value="Resi" />
+					<label class="form-check-label" for="Resi">Send All Resident</label>
+				</div>
+				<div class="form-check">
+					<input type="radio" class="form-check-input" id="pick" name="sending" value="pick" />
+					<label class="form-check-label" for="pick">Choose Receiver</label>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="select-send" class="form-group mt-3 justify-content-center">
+		<div class="col-10">
+			<select data-placeholder="Choose Receiver ..." class="chosen-select" multiple tabindex="4">
+				<option value=""></option>
+				<option th:each="emp : ${employee}" th:value="${emp.employeeID}" th:text="${emp.fullName+' - '+emp.employeeID}">
+				<option th:each="resi : ${resident}" th:value="${resi.idResident}" th:text="${resi.nameResident+' - '+resi.idResident}">
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group mt-3 d-flex flex-row-reverse pr-5">
+		<button onclick="window.location.href='add';" class="btn btn-secondary px-5">
+			cancel
+		</button>
+		<button onclick="sending()" class="btn btn-warning px-5 mx-3">Send</button>
+	</div>
+
+	<script th:src="@{/notification/js/add.js}"></script>
+
+	<script th:src="@{/lib/choosen/docsupport/prototype-1.7.0.0.js}"></script>
+	<script th:src="@{/lib/choosen/chosen.proto.js}"></script>
+	<script th:src="@{/lib/choosen/docsupport/prism.js}"></script>
+	<script th:src="@{/lib/choosen/docsupport/init.proto.js}"></script>
+
+</body>
+
+</html>

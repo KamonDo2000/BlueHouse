@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Account</title>
+	<link rel="stylesheet" th:href="@{/account/css/list.css}" />
+</head>
+
+<body layout:fragment="content">
+	<div class="m-5 mt-4">
+		<div class="h1 text-center mb-4">
+			<a href="list" class="text-decoration-none text-body">List Account</a>
+		</div>
+
+		<div class="text-center d-flex justify-content-between">
+			<form th:action="search" class="col-3">
+				<div class="input-group">
+					<input class="form-control search" placeholder="Search" name="searchKeyword" />
+					<button class="input-group-text search-icon" type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</form>
+
+			<a href="add">
+				<button type="button" class="btn btn-info">+ ADD New</button>
+			</a>
+		</div>
+
+		<div class="table-responsive tableFixHead border-right border-left border-bottom mt-3">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">User Name</th>
+						<th scope="col">Role</th>
+						<th scope="col">Active</th>
+						<th scope="col">ID user</th>
+						<th scope="col">Name</th>
+
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody th:each="acc : ${listPaggin}">
+					<tr>
+						<td th:text="${acc.username}"></td>
+						<td>
+							<span th:switch="${acc.role}">
+								<span th:case="1">ADMIN</span>
+								<span th:case="2">MANAGER</span>
+								<span th:case="3">RESIDENT</span>
+								<span th:case="4">EMPLOYEE</span>
+								<span th:case="*">Unknown</span>
+							</span>
+						</td>
+						<td>
+							<span th:switch="${acc.active}">
+								<span th:case="0">Non-Active</span>
+								<span th:case="1">Active</span>
+							</span>
+						</td>
+						<td th:text="${acc.employee != null ? acc.employee.employeeID : acc.resident.idResident}"></td>
+						<td th:text="${acc.employee != null ? acc.employee.fullName : acc.resident.nameResident}"></td>
+
+						<td>
+							<a th:data-value="${acc.username}" onclick="window.location.href='edit?userName='+this.dataset.value;" class="text-decoration-none mr-2">
+								<i class="fa-solid fa-pen-to-square pencil"></i>
+							</a>
+
+							<a th:data-value="${acc.username}" onclick="getAcc(this.dataset.value)" data-toggle="modal" data-target="#deleteModal">
+								<i class="fa-solid fa-trash trash"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:replace="@{layout/page} :: pageAble"></div>
+	</div>
+
+	<div th:replace="@{layout/modalDel} :: modalDelete"></div>
+
+	<script th:src="@{/account/js/list.js}"></script>
+</body>
+
+</html>

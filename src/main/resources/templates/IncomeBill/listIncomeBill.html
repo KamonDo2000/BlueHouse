@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>List Apartment Bill</title>
+<script>
+    function setDeleteUrl(element) {
+        const url = element.getAttribute('data-href');
+        document.getElementById('confirmDeleteBtn').setAttribute('onclick', `confirmDelete('${url}')`);
+    }
+
+    function confirmDelete(url) {
+        window.location.href = url;
+    }
+</script>
+</head>
+
+<body layout:fragment="content" > 
+<div class="m-5">
+	<h1>List Apartment Bill</h1>
+	<div class="d-flex justify-content-between">
+	<nav class="navbar navbar-light bg-light">
+		<div class="container-fluid">
+			<form class="d-flex" action="/IncomeBill/searchapartmentbill" method="GET">
+				<input class="form-control me-2" type="text" name="searchKeyword" placeholder="Search" aria-label="Search">
+				<input class="form-control me-2" type="hidden" name="idapartment" th:value="${apartment.idApartment}">
+				<button class="btn btn-outline-success" type="submit">Search</button>
+			</form>
+		</div>
+	</nav>
+	<div class="d-flex justify-content-end">
+	<a th:href="@{/IncomeBill/createapartmentbill(idapartment=${apartment.idApartment})}"
+					target="blank">
+   <button sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" class="btn btn-primary m-2" type="submit">Create IncomeBill</button></a>
+	</div>
+	</div>
+	<div class="ml-5 mr-5">
+	
+	<span>ID Apartment: <span th:text="${apartment.idApartment}"></span> </span>
+	<span class="ml-5">ID Homeowner: <span th:text="${apartment.idHomeowner}"></span> </span>
+	<div class="table-responsive tableFixHead border-right border-left border-bottom">
+	<table class="table">
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">ID IncomeBill</th>
+				<th scope="col">Bill Date</th>
+				<th scope="col">Paymen Date</th>
+				<th scope="col">Employee</th>
+				<th scope="col">Status</th>
+				<th scope="col">Total</th>
+				<th scope="col">Detail</th>
+				<th sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" scope="col">Pay Bill</th>
+			</tr>
+		</thead>
+		<tbody th:each="bill : ${listapartmentbill}">
+			<tr>
+				<td th:text="${bill.idIncomeBill}"></td>
+				<td th:text="${bill.billDate}"></td>
+				<td th:text="${bill.paymentDate}"></td>
+				<td th:text="${bill.idEmployee != null ? bill.idEmployee.fullName : ' '}"></td>
+				<td th:text="${bill.status}"></td>
+				<td th:text="${bill.getTotalbill}"></td>
+				<td> <a th:href="@{/IncomeBillDetail/showlishtdetail(idbill=${bill.idIncomeBill})}"
+					target="blank"><i class="fa-solid fa-calendar-week"></i></a></td>
+				<td sec:authorize="hasRole('MANAGE') or hasRole('EMPLOYEE')" > <a href="#" th:if="${bill.paymentDate == null && bill.getTotalbill != 0}"
+					th:attr="data-href=@{/IncomeBill/paybill(idbill=${bill.idIncomeBill})}" 
+					onclick="setDeleteUrl(this)" data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-file-invoice-dollar"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div class="float-right mr-3">
+
+		<ul class="pagination">
+			<li class="page-item disabled" th:if="${currentPage == 1}">
+				<a class="page-link " href="#">First</a>
+			</li>
+			<li class="page-item " th:if="${currentPage > 1}">
+				<a class="page-link" th:href="@{${path}(page=${1}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}">First</a>
+			</li>
+			<li class="page-item disabled" th:if="${currentPage == 1}">
+				<a class="page-link " href="#">Previous</a>
+			</li>
+			<li class="page-item " th:if="${currentPage > 1}">
+				<a class="page-link"
+					th:href="@{${path}(page=${currentPage - 1}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}">Previous</a>
+			</li>
+			<!-- Left -->
+			<li class="page-item " th:if="${currentPage >= 3}">
+				<a class="page-link"
+					th:href="@{${path}(page=${1}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}"> 1</a>
+			</li>
+			<li class="page-item  " th:if="${currentPage > 3}">
+				<a class="page-link"
+					th:href="@{${path}(page=${2}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}"> 2</a>
+			</li>
+			<li class="page-item  disabled" th:if="${currentPage > 4}">
+				<a class="page-link"
+					href="#">. . .</a>
+			</li>
+
+			<!-- Middle -->
+			<span th:each="i : ${#numbers.sequence(1, totalPages)}">
+				<li class="" th:if="${currentPage == i-1}"><a class="page-link"
+						th:href="@{${path}(page=${i}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}" th:text="${i}"></a></li>
+				<li class=" " th:if="${currentPage == i}" style="border-radius: 0;"><a
+						class="page-link bg-primary text-white" href="#" th:text="${i}"></a></li>
+				<li class="" th:if="${currentPage == i+1}"><a class="page-link"
+						th:href="@{${path}(page=${i}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}" th:text="${i}"></a></li>
+			</span>
+
+			<!-- Right -->
+			<li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
+				<a class="page-link"
+					href="#">. . .</a>
+			</li>
+			<li class="page-item" th:if="${currentPage < totalPages - 2}">
+				<a class="page-link"
+					th:href="@{${path}(page=${totalPages-1}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}" th:text="${totalPages-1}"></a>
+			</li>
+			<li class="page-item" th:if="${currentPage <= totalPages - 2}">
+				<a class="page-link"
+					th:href="@{${path}(page=${totalPages}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}" th:text="${totalPages}"></a>
+			</li>
+
+
+			<li class="page-item" th:if="${currentPage < totalPages}">
+				<a class="page-link"
+					th:href="@{${path}(page=${currentPage + 1}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}">Next</a>
+			</li>
+			<li class="page-item disabled" th:if="${currentPage == totalPages}">
+				<a class="page-link" href="#">Next</a>
+			</li>
+			<li class="page-item" th:if="${currentPage < totalPages}">
+				<a class="page-link"
+					th:href="@{${path}(page=${totalPages}, searchKeyword=${searchKeyword}, idApartment=${apartment.idApartment})}">Last</a>
+			</li>
+			<li class="page-item disabled" th:if="${currentPage == totalPages}">
+				<a class="page-link" href="#">Last</a>
+			</li>
+
+		</ul>
+
+	</div>
+	</div>
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Pay Bill</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               You Surely Want To Pay This Bill?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Pay Bill</button>
+            </div>
+        </div>
+    </div>
+</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Account Management</title>
+</head>
+
+<body layout:fragment="content">
+	<form id="form-data" class="mt-5" th:action="save" method="post" th:object="${account}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-3">Add New Account</h1>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-5">
+					<label for="username" class="form-lable">User Name</label>
+					<input type="text" th:field="*{username}" id="username" class="form-control" placeholder="User Name" />
+					<div class="error-message text-danger pt-1"></div>
+
+					<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+				</div>
+
+				<div class="col-5">
+					<label for="password" class="form-lable">Pass World</label>
+					<div class="input-group">
+						<input type="password" th:field="*{password}" class="form-control border-right-0" id="password" name="password" placeholder="Please enter your password" autocomplete="off" />
+						<span class="input-group-text border-left-0 bg-white" style="border-radius: 0 0.25rem 0.25rem 0;">
+							<svg id="show-pass" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+								<path
+									d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+								<path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+							</svg>
+							<svg id="hide-pass" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
+								<path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
+								<path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
+								<path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
+							</svg>
+						</span>
+					</div>
+
+					<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+				</div>
+			</div>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-5">
+					<label for="role" class="form-lable">Create Account For</label>
+					<select id="role" th:field="*{role}" class="form-control" required>
+						<option value="1">FOR RESIDENT</option>
+						<option value="2">FOR EMPLOYEE </option>
+					</select>
+
+					<div class="error-message text-danger pt-3">
+						<span id="office-error"></span>
+					</div>
+				</div>
+
+				<div id="div-resident" class="col-5" th:object="${resident}">
+					<label for="idResi" class="form-lable">ID Resident</label>
+
+					<select id="idResi" th:field="*{idResident}" class="form-control">
+						<option th:each="resi : ${listReci}" th:value="${resi.idResident}" th:text="${resi.idResident+' - '+resi.nameResident}"></option>
+					</select>
+				</div>
+
+				<div id="div-employee" class="col-5" th:object="${employee}">
+					<label for="idEmp" class="form-lable">ID Employee</label>
+
+					<select id="idEmp" th:field="*{employeeID}" class="form-control">
+						<option th:each="emp : ${listEmp}" th:value="${emp.employeeID}" th:text="${emp.employeeID+' - '+emp.fullName}"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row pb-2 d-flex justify-content-around">
+				<div class="col-5">
+					<label for="active" class="form-lable">Active</label>
+					<select id="active" th:field="*{active}" class="form-control" required>
+						<option value="0">Non-Active</option>
+						<option value="1">Active</option>
+					</select>
+
+					<div class="error-message text-danger pt-3">
+						<span id="active-error"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="d-flex justify-content-end">
+				<button onclick="validate(event)" class="btn btn-success col-2" type="submit">
+					Create
+				</button>
+
+				<button id="cancel" class="btn btn-secondary col-2 ml-2" type="reset">
+					Cancel
+				</button>
+
+				<button onclick="window.location.href='list';" class="btn btn-secondary col-2 ml-2" type="reset">
+					Back
+				</button>
+			</div>
+		</div>
+	</form>
+
+	<script th:src="@{/common/js/login.js}"></script>
+	<script th:src="@{/Account/js/update.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create BillDetail</title>
+
+</head>
+<body layout:fragment="content">
+	<form action="/IncomeBillDetail/saveDetail" class="mt-5" method="post"
+		th:object="${billDetail}">
+		<div class="container p-3 border">
+			<h1 class="text-center pb-5">Create IncomeBill</h1>
+			<div class="row">
+				<div class=" col-6 mb-3">
+					<label for="idbilldetail" class="form-lable">ID IncomeBill</label>
+					<div>
+						<span th:if="${#fields.hasErrors('idbilldetail')}"
+							th:errors="*{idbilldetail}" class="text-danger"></span>
+					</div>
+
+					<input type="text" th:field="*{idbilldetail}" id="idbilldetail"
+						class="form-control" placeholder="ID BillDetail"
+						aria-label="Username" aria-describedby="addon-wrapping" readonly="readonly">
+				</div>
+				<div class=" col-6 mb-3">
+					<label for="quantity" class="form-lable">Quantity</label>
+					<div>
+						<span th:if="${#fields.hasErrors('quantity')}"
+							th:errors="*{quantity}" class="text-danger"></span>
+					</div>
+
+					<input type="number" th:field="*{quantity}" id="paymentDate"
+						class="form-control"  aria-label="Username" placeholder="Quantity"
+						aria-describedby="addon-wrapping">
+				</div>
+				<div class=" col-6 mb-3">
+					<label for="idIncomeBill" class="form-lable">ID IncomeBill</label>
+					<div>
+						<span th:if="${#fields.hasErrors('idIncomeBill')}"
+							th:errors="*{idIncomeBill}" class="text-danger"></span>
+					</div>
+
+					<input type="text" th:field="*{idIncomeBill.idIncomeBill}" id="idIncomeBill"
+						class="form-control" placeholder="ID IncomeBill"
+						aria-label="Username" aria-describedby="addon-wrapping" readonly="readonly">
+				</div>
+				
+					<div class="col-6 mb-3">
+					<label for="idfeetype" class="form-lable ">Fee Type</label>
+					<div>
+						<span th:if="${#fields.hasErrors('idfeetype')}"
+							th:errors="*{idfeetype}" class="text-danger"></span>
+					</div>
+					<select id="idfeetype" th:field="*{idfeetype}" class="form-control">
+						<option th:each="fee : ${listfee}" th:value="${fee.idFeetype}"
+							th:text="${fee.nameFeetype}"></option>
+					</select>
+				</div>
+				
+			</div>
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-primary btn-lg col-2" type="submit">Create
+				</button>
+				<a href="/IncomeBillDetail/showlishtdetail" class="col-2 btn btn-secondary btn-lg" >Cancel
+			</a>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
